@@ -3,618 +3,1217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proyecto CREAS — Propuesta de Gestión</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Tablero Ombú · Bamboo Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-  :root {
-    --stone:    #f5f2ed;
-    --stone-2:  #ede8e0;
-    --stone-3:  #d9d2c5;
-    --moss:     #3d5a3e;
-    --moss-2:   #2e4430;
-    --moss-light: #edf2ed;
-    --bark:     #6b4f3a;
-    --bark-light: #f5ede6;
-    --amber:    #c47c2b;
-    --amber-light: #fdf3e3;
-    --red-soft: #b94040;
-    --red-light: #fdf0f0;
-    --text-primary: #1e1e1a;
-    --text-secondary: #5a5649;
-    --text-muted: #8a8278;
-    --border: rgba(90,86,73,0.15);
-    --border-mid: rgba(90,86,73,0.28);
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
+:root{--bg:#0f1117;--bg2:#161b27;--bg3:#1e2535;--border:#2a3144;--border2:#364058;--text:#e8eaf0;--text2:#8b93a8;--text3:#505a72;--accent:#3b82f6;--abg:rgba(59,130,246,.12);--green:#22c55e;--gbg:rgba(34,197,94,.12);--yellow:#f59e0b;--ybg:rgba(245,158,11,.12);--red:#ef4444;--rbg:rgba(239,68,68,.12);--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--r:10px;--rs:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* LOGIN */
+#ls{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;background:radial-gradient(ellipse at 30% 40%,rgba(59,130,246,.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(34,197,94,.05) 0%,transparent 50%),var(--bg)}
+.lc{width:100%;max-width:380px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem}
+.ll{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
+.ld{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff}
+.lt2{font-size:15px;font-weight:600}.ls2{font-size:12px;color:var(--text2)}
+.ltit{font-size:22px;font-weight:600;margin-bottom:6px}.lsub{font-size:13px;color:var(--text2);margin-bottom:2rem}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem}
+.rb{padding:12px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3);color:var(--text2);cursor:pointer;text-align:center;font-family:var(--sans);font-size:13px;font-weight:500;transition:all .15s}
+.rb:hover{border-color:var(--accent);color:var(--text)}.rb.sel{border-color:var(--accent);background:var(--abg);color:var(--accent)}
+.ri{font-size:20px;margin-bottom:4px;display:block}
+.ig{margin-bottom:1rem}.il{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;font-weight:500}
+.inf{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
+.inf:focus{border-color:var(--accent)}
+.lbtn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--rs);font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s;margin-top:.5rem}
+.lbtn:hover{opacity:.88}.lerr{color:var(--red);font-size:12px;margin-top:8px;display:none}
 
-  body {
-    font-family: var(--sans);
-    background: var(--stone);
-    color: var(--text-primary);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+/* APP */
+#app{display:none}
+.tb{position:sticky;top:0;z-index:100;background:rgba(15,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:52px}
+.tbl{display:flex;align-items:center;gap:12px}
+.tblo{width:28px;height:28px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;flex-shrink:0}
+.tbt{font-size:14px;font-weight:600}.tbs{font-size:12px;color:var(--text3);margin-left:4px}
+.tbr{display:flex;align-items:center;gap:10px}
+.rbadge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:.03em}
+.rbadge.bamboo{background:var(--abg);color:var(--accent)}.rbadge.ombu{background:var(--gbg);color:var(--green)}
+.ob{background:none;border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);font-size:12px;padding:5px 10px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.ob:hover{border-color:var(--border2);color:var(--text)}
+.mn{max-width:1100px;margin:0 auto;padding:1.5rem}
+.sl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin:0 0 10px;font-family:var(--mono)}
 
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(245,242,237,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px;
-  }
-  .nav-brand { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--moss); letter-spacing: .02em; }
-  .nav-links { display: flex; gap: 1.5rem; }
-  .nav-links a { font-size: .8rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; letter-spacing: .04em; text-transform: uppercase; transition: color .2s; }
-  .nav-links a:hover { color: var(--moss); }
+/* KPI */
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+@media(max-width:640px){.kg{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.kpi.ph{border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:76px}
+.kl{font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.kv{font-size:24px;font-weight:600}.ks2{font-size:11px;color:var(--text3);margin-top:2px}
 
-  /* HERO */
-  .hero {
-    padding: 6rem 2rem 4rem;
-    max-width: 860px; margin: 0 auto;
-    position: relative;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: .7rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--moss); background: var(--moss-light);
-    padding: 5px 12px; border-radius: 20px; margin-bottom: 1.5rem;
-  }
-  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--moss); border-radius: 50%; }
-  h1 {
-    font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 4.5rem);
-    font-weight: 600; line-height: 1.1; color: var(--moss-2);
-    margin-bottom: 1.25rem;
-  }
-  h1 em { font-style: italic; color: var(--bark); }
-  .hero-sub {
-    font-size: 1.05rem; color: var(--text-secondary); font-weight: 300;
-    max-width: 540px; margin-bottom: 2rem; line-height: 1.7;
-  }
-  .hero-meta {
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  }
-  .meta-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: .8rem; color: var(--text-muted);
-  }
-  .meta-dot { width: 4px; height: 4px; background: var(--stone-3); border-radius: 50%; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: .7rem; font-weight: 500; padding: 4px 10px; border-radius: 20px;
-  }
-  .pill-green { background: var(--moss-light); color: var(--moss); }
-  .pill-amber { background: var(--amber-light); color: var(--amber); }
+/* BLOQUEOS */
+.bq{background:var(--bg2);border:1px solid rgba(239,68,68,.3);border-radius:var(--r);padding:14px 16px;margin-bottom:1.5rem}
+.bqh{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;font-weight:600}
+.bql{display:flex;flex-direction:column;gap:8px}
+.bqi{display:flex;align-items:flex-start;gap:10px;font-size:13px}
+.bqd{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.bqd.r{background:var(--red)}.bqd.y{background:var(--yellow)}
+.bqt{flex:1;line-height:1.4}.bqo{font-size:11px;color:var(--text3);margin-top:1px}
 
-  /* SECTION */
-  section { padding: 4rem 2rem; max-width: 860px; margin: 0 auto; }
-  .section-rule { border: none; border-top: 1px solid var(--border); margin: 0 2rem; }
-  .section-eyebrow {
-    font-size: .7rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--moss); margin-bottom: .75rem;
-  }
-  h2 {
-    font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 600; color: var(--moss-2); margin-bottom: .75rem; line-height: 1.2;
-  }
-  .section-intro { font-size: .95rem; color: var(--text-secondary); max-width: 580px; margin-bottom: 2rem; line-height: 1.7; }
+/* LEYENDA */
+.ley{display:flex;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.fl{flex:1;padding:7px 4px;text-align:center;border-left:1px solid var(--border)}
+.fl:first-child{border-left:none}
+.fln{font-size:10px;font-weight:700;color:var(--text3);margin-bottom:2px;font-family:var(--mono)}
+.flt{font-size:9px;color:var(--text3);line-height:1.2}
+@media(max-width:600px){.flt{display:none}}
 
-  /* PHASES */
-  .phase-tabs { display: flex; gap: 0; border: 1px solid var(--border-mid); border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem; }
-  .phase-tab {
-    flex: 1; padding: .7rem .5rem; text-align: center; cursor: pointer;
-    background: white; border: none; border-right: 1px solid var(--border);
-    font-family: var(--sans); font-size: .75rem; font-weight: 400; color: var(--text-muted);
-    transition: all .2s; line-height: 1.3;
-  }
-  .phase-tab:last-child { border-right: none; }
-  .phase-tab .tab-num { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
-  .phase-tab .tab-name { font-weight: 500; color: var(--text-secondary); }
-  .phase-tab .tab-time { font-size: .7rem; color: var(--text-muted); margin-top: 2px; }
-  .phase-tab.active, .phase-tab:hover { background: var(--moss-light); }
-  .phase-tab.active { background: var(--moss); }
-  .phase-tab.active .tab-num, .phase-tab.active .tab-name, .phase-tab.active .tab-time { color: white; }
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tab{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.tab:hover{border-color:var(--border2);color:var(--text)}.tab.on{background:var(--abg);color:var(--accent);border-color:var(--accent);font-weight:600}
 
-  .phase-panel {
-    border: 1px solid var(--border-mid); border-radius: 10px;
-    background: white; padding: 1.5rem; animation: fadein .3s ease;
-  }
-  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-  .panel-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--moss-2); margin-bottom: .5rem; }
-  .panel-desc { font-size: .9rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem; }
-  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip {
-    font-size: .75rem; padding: 4px 10px; border-radius: 20px;
-    border: 1px solid var(--border-mid); color: var(--text-secondary); background: var(--stone);
-  }
+/* CARDS */
+.ig2{display:flex;flex-direction:column;gap:8px}
+.ic{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.ic:hover,.ic.open{border-color:var(--border2)}
+.ich{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;flex-wrap:wrap}
+.ich:hover{background:rgba(255,255,255,.02)}
+.in{font-size:14px;font-weight:500;flex:1;min-width:130px}
+.itags{display:flex;gap:5px;align-items:center}
+.tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.02em}
+.tm{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.td{background:var(--rbg);color:var(--red)}
+.ichev{font-size:16px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.ic.open .ichev{transform:rotate(180deg)}
 
-  /* CATEGORIES GRID */
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-  .cat-card {
-    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
-    background: white; transition: border-color .2s, transform .2s;
-  }
-  .cat-card:hover { border-color: var(--moss); transform: translateY(-2px); }
-  .cat-icon-wrap { width: 32px; height: 32px; border-radius: 8px; background: var(--moss-light); display: flex; align-items: center; justify-content: center; margin-bottom: .6rem; }
-  .cat-icon-wrap svg { width: 16px; height: 16px; stroke: var(--moss); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .cat-name { font-size: .85rem; font-weight: 500; color: var(--text-primary); margin-bottom: .3rem; }
-  .cat-desc { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
+/* FASE STRIP */
+.fsw{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;flex-shrink:0}
+.fs{padding:3px 6px;font-size:10px;font-weight:700;border-left:1px solid var(--border);font-family:var(--mono);white-space:nowrap}
+.fs:first-child{border-left:none}
+.fs.done{background:var(--gbg);color:var(--green)}.fs.active{background:var(--ybg);color:var(--yellow)}.fs.pend{background:transparent;color:var(--text3)}
 
-  /* CHALLENGES */
-  .challenge-list { display: flex; flex-direction: column; gap: 10px; }
-  .challenge {
-    display: flex; gap: 12px; padding: 1rem 1.25rem;
-    border: 1px solid var(--border); border-radius: 10px; background: white;
-    border-left-width: 3px;
+/* BODY */
+.icb{border-top:1px solid var(--border);display:none}.ic.open .icb{display:block}
+.nstep{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(245,158,11,.06)}
+.imp{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(239,68,68,.06)}
+.nsl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;margin-top:2px;font-family:var(--mono)}
+.nsl.w{color:var(--yellow)}.nsl.r{color:var(--red)}
+.nst{font-size:13px;line-height:1.4;flex:1}.nso{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* SECTIONS */
+.secs{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:540px){.secs{grid-template-columns:1fr}}
+.sec{padding:14px 16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sec:nth-child(even){border-right:none}.sec:nth-last-child(-n+2){border-bottom:none}
+@media(max-width:540px){.sec{border-right:none}.sec:last-child{border-bottom:none}.sec:nth-last-child(-n+2){border-bottom:1px solid var(--border)}}
+.stit{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;display:flex;align-items:center;gap:5px;font-family:var(--mono)}
+
+/* FIELD ROW */
+.sr{display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:8px}
+.sr:last-child{border-bottom:none}
+.srk{color:var(--text2);flex-shrink:0;font-size:11px}
+.srv{font-weight:500;text-align:right;font-size:12px}
+.srv.e{color:var(--text3);font-weight:400;font-style:italic}
+.srv.nota{text-align:left;font-weight:400;color:var(--text2);font-size:11px;line-height:1.4}
+
+/* EDIT FIELDS */
+.ef{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:8px}
+.ef:last-child{border-bottom:none}
+.efk{color:var(--text2);flex-shrink:0;font-size:11px;min-width:90px}
+.efv{flex:1;background:var(--bg3);border:1px solid var(--accent);border-radius:4px;padding:3px 7px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;text-align:right;width:100%}
+.efv:focus{border-color:var(--green)}
+.efv.nota-input{text-align:left;resize:vertical;min-height:50px;font-size:11px}
+
+/* REFS */
+.refs{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.rc{font-size:10px;font-family:var(--mono);font-weight:500;color:var(--accent);background:var(--abg);padding:2px 7px;border-radius:4px}
+
+/* ── PAGOS CONFIGURABLES ── */
+.pagos-wrap{margin-top:10px}
+.pagos-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.pago-add-btn{font-size:10px;color:var(--accent);background:none;border:1px solid var(--accent);border-radius:4px;padding:2px 7px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.pago-add-btn:hover{background:var(--abg)}
+.pagos-list{display:flex;flex-direction:column;gap:6px}
+
+/* view mode pago row */
+.pago-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--rs);border:1px solid var(--border)}
+.pago-row.ok{background:var(--gbg);border-color:rgba(34,197,94,.2)}
+.pago-row.pend{background:var(--rbg);border-color:rgba(239,68,68,.2)}
+.pago-row.na{background:var(--bg3)}
+.pago-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pago-dot.ok{background:var(--green)}.pago-dot.pend{background:var(--red)}.pago-dot.na{background:var(--text3)}
+.pago-label-txt{flex:1;font-size:12px;font-weight:500}
+.pago-date{font-size:11px;color:var(--text2)}
+.pago-status{font-size:10px;font-weight:700;font-family:var(--mono)}
+.pago-status.ok{color:var(--green)}.pago-status.pend{color:var(--red)}
+
+/* edit mode pago row */
+.pago-edit-row{display:flex;align-items:center;gap:6px;padding:6px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs)}
+.pago-edit-row input[type=text],.pago-edit-row input[type=date]{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:4px 7px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none}
+.pago-edit-row input[type=text]{flex:1}.pago-edit-row input[type=date]{width:130px}
+.pago-edit-row input:focus{border-color:var(--accent)}
+.pago-check{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);white-space:nowrap;cursor:pointer}
+.pago-check input[type=checkbox]{accent-color:var(--green);width:14px;height:14px;cursor:pointer}
+.pago-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 4px;transition:color .15s}
+.pago-del:hover{color:var(--red)}
+
+/* TEAM */
+.tg{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tc{display:flex;flex-direction:column;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;flex:1;min-width:85px}
+.tr2{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)}
+.ti2{background:transparent;border:none;color:var(--text);font-family:var(--sans);font-size:12px;font-weight:500;outline:none;width:100%;padding:0}
+.ti2::placeholder{color:var(--text3);font-style:italic}.ti2[readonly]{cursor:default}
+
+/* PERFORMANCE */
+.perf{padding:14px 16px;border-top:1px solid var(--border);background:rgba(255,255,255,.01)}
+.ph2{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.ptit{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:5px;font-family:var(--mono)}
+.pdw{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)}
+.pdw input[type=date]{font-size:12px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:var(--sans);outline:none}
+.pdw input[type=date][readonly]{background:transparent;border-color:transparent;cursor:default}
+.pi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:540px){.pi{grid-template-columns:1fr 1fr}}
+.aw{display:flex;flex-direction:column;gap:4px}
+.al{font-size:10px;color:var(--text3);font-family:var(--mono);letter-spacing:.02em}
+.al .eh{color:var(--accent);font-size:9px;margin-left:3px}
+.ai{font-size:13px;padding:7px 9px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:var(--sans);outline:none;width:100%;transition:border-color .15s}
+.ai:focus{border-color:var(--accent)}.ai[readonly]{background:var(--bg2);cursor:default;color:var(--text2)}
+.ai.of{border-color:rgba(34,197,94,.25)}.ai.bf{border-color:rgba(59,130,246,.25)}
+.pr2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ar{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px}
+.arl{font-size:10px;color:var(--text3);margin-bottom:3px;font-family:var(--mono);letter-spacing:.02em}
+.arv{font-size:15px;font-weight:600}.arv.g{color:var(--green)}.arv.m{color:var(--text3);font-size:12px}
+.pnote{font-size:10px;color:var(--text3);margin-top:10px;padding:6px 10px;background:var(--bg3);border-radius:4px;border-left:2px solid var(--border2);font-family:var(--mono)}
+
+/* BUTTONS */
+.sbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:var(--rs);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;margin-top:12px}
+.sbtn:hover{opacity:.85}.sbtn.saved{background:var(--green)}
+.ebtn{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);font-family:var(--sans);font-size:10px;cursor:pointer;transition:all .15s;margin-left:6px}
+.ebtn:hover{border-color:var(--accent);color:var(--accent)}
+.ebtn.active{border-color:var(--accent);color:var(--accent);background:var(--abg)}
+
+/* ══ MOBILE OPTIMIZATIONS ══ */
+@media(max-width:768px){
+
+  /* TOPBAR */
+  .tb { padding: 0 1rem; height: 48px; }
+  .tbs { display: none; }
+  .tbt { font-size: 13px; }
+
+  /* MAIN */
+  .mn { padding: 1rem; }
+
+  /* KPI */
+  .kg { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+  .kpi.ph { min-height: 60px; }
+  .kv { font-size: 20px; }
+
+  /* BLOQUEOS */
+  .bq { padding: 12px; }
+  .bqt { font-size: 12px; }
+  .bqo { font-size: 10px; }
+
+  /* LEYENDA FASES — scroll horizontal */
+  .ley {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    border-radius: var(--r);
   }
-  .challenge.bloq { border-left-color: var(--red-soft); }
-  .challenge.key  { border-left-color: var(--amber); }
-  .ch-marker { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-  .ch-marker.bloq { background: var(--red-soft); }
-  .ch-marker.key  { background: var(--amber); }
-  .ch-title { font-size: .88rem; font-weight: 500; color: var(--text-primary); margin-bottom: .25rem; }
-  .ch-desc  { font-size: .8rem; color: var(--text-secondary); line-height: 1.6; }
-  .ch-badge {
-    display: inline-block; font-size: .65rem; font-weight: 500; text-transform: uppercase;
-    letter-spacing: .06em; padding: 2px 7px; border-radius: 8px; margin-left: 8px; vertical-align: middle;
+  .fl { min-width: 38px; padding: 6px 3px; }
+  .fln { font-size: 9px; }
+  .flt { display: none; }
+
+  /* TABS — scroll horizontal */
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    gap: 5px;
   }
-  .badge-bloq { background: var(--red-light); color: var(--red-soft); }
-  .badge-key  { background: var(--amber-light); color: var(--amber); }
+  .tab { white-space: nowrap; font-size: 11px; padding: 4px 10px; }
+
+  /* ITEM CARD HEAD */
+  .ich { padding: 10px 12px; gap: 8px; }
+  .in  { font-size: 13px; min-width: 0; }
+
+  /* FASE STRIP — scroll horizontal en la cabecera */
+  .fsw {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+    max-width: 180px;
+  }
+  .fs { padding: 3px 5px; font-size: 9px; }
+
+  /* SECTIONS — siempre 1 columna en mobile */
+  .secs {
+    grid-template-columns: 1fr !important;
+  }
+  .sec {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 12px;
+  }
+  .sec:last-child { border-bottom: none !important; }
+
+  /* FIELD ROWS — wrap en lugar de overflow */
+  .sr {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 5px 0;
+  }
+  .srv {
+    text-align: left !important;
+    font-size: 12px;
+    word-break: break-word;
+  }
+  .srv.nota { font-size: 11px; }
+  .srk { font-size: 11px; color: var(--text3); }
+
+  /* EDIT FIELDS */
+  .ef {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .efk { min-width: unset; font-size: 11px; }
+  .efv { text-align: left; font-size: 12px; }
+
+  /* REFS */
+  .refs { margin-top: 6px; }
+  .rc { font-size: 10px; }
+
+  /* PAGOS */
+  .ptl { flex-direction: column; gap: 6px; }
+  .pti { min-width: unset; }
+  .pago-edit-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pago-edit-row input[type=text] { width: 100%; }
+  .pago-edit-row input[type=date] { width: 100%; }
 
   /* TEAM */
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 1rem; }
-  .member {
-    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; background: white;
-  }
-  .member.me { border-color: var(--moss); background: var(--moss-light); }
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: .8rem; font-weight: 500; margin-bottom: .6rem;
-  }
-  .av-moss { background: var(--moss); color: white; }
-  .av-bark { background: var(--bark-light); color: var(--bark); }
-  .av-gray { background: var(--stone-2); color: var(--text-secondary); }
-  .member-name { font-size: .88rem; font-weight: 500; color: var(--text-primary); margin-bottom: .15rem; }
-  .member-role { font-size: .75rem; color: var(--text-muted); margin-bottom: .5rem; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag { font-size: .68rem; padding: 2px 7px; border-radius: 8px; background: var(--stone-2); color: var(--text-secondary); }
-  .tag.me { background: rgba(61,90,62,.15); color: var(--moss); }
-  .to-hire {
-    font-size: .8rem; color: var(--text-secondary); background: var(--stone-2);
-    border-radius: 8px; padding: .6rem 1rem; border: 1px dashed var(--border-mid);
-  }
-  .to-hire strong { color: var(--text-primary); }
+  .tg { flex-direction: column; gap: 6px; }
+  .tc { min-width: unset; }
 
-  /* BUDGET */
-  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
-  .metric {
-    background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
+  /* PERFORMANCE */
+  .perf { padding: 12px; }
+  .ph2 { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .pi {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
   }
-  .metric-label { font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: .3rem; }
-  .metric-val { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--moss-2); line-height: 1; }
-  .metric-sub { font-size: .75rem; color: var(--text-muted); margin-top: .3rem; }
+  .pr2 {
+    grid-template-columns: 1fr !important;
+    gap: 6px;
+  }
+  .pdw input[type=date] { font-size: 11px; }
+  .ai { font-size: 12px; padding: 8px; }
 
-  .budget-table { width: 100%; border-collapse: collapse; }
-  .budget-table th {
-    font-size: .7rem; font-weight: 500; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--text-muted); text-align: left; padding: .5rem .75rem;
-    border-bottom: 1px solid var(--border-mid);
-  }
-  .budget-table th:last-child { text-align: right; }
-  .budget-table td {
-    padding: .6rem .75rem; font-size: .82rem; color: var(--text-primary);
-    border-bottom: 1px solid var(--border); vertical-align: middle;
-  }
-  .budget-table tr:last-child td { border-bottom: none; }
-  .budget-table tr:nth-child(even) td { background: var(--stone); }
-  .status-badge {
-    font-size: .68rem; font-weight: 500; padding: 2px 8px; border-radius: 10px;
-  }
-  .s-ok   { background: var(--moss-light); color: var(--moss); }
-  .s-warn { background: var(--amber-light); color: var(--amber); }
-  .s-none { background: var(--stone-2); color: var(--text-muted); }
-  .td-right { text-align: right; font-weight: 500; color: var(--text-secondary); }
+  /* SAVE BTN */
+  .sbtn { width: 100%; justify-content: center; margin-top: 10px; }
 
-  /* CTA */
-  .cta-block {
-    border: 1px solid var(--border-mid); border-radius: 12px; padding: 2rem;
-    background: white; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+  /* NEXT STEP */
+  .nstep, .imp {
+    padding: 10px 12px;
+    flex-direction: column;
+    gap: 6px;
   }
-  .cta-text { font-family: var(--serif); font-size: 1.2rem; color: var(--moss-2); max-width: 480px; line-height: 1.5; }
-  .cta-btn {
-    background: var(--moss); color: white; border: none; padding: .75rem 1.75rem;
-    border-radius: 8px; font-family: var(--sans); font-size: .85rem; font-weight: 500;
-    cursor: pointer; transition: background .2s; white-space: nowrap; text-decoration: none; display: inline-block;
-  }
-  .cta-btn:hover { background: var(--moss-2); }
+  .nsl { margin-top: 0; }
+  .nst { font-size: 12px; }
+  .nso { font-size: 11px; }
 
-  /* LEGEND */
-  .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
-  .leg { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--text-muted); }
-  .leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+  /* LOGIN */
+  .lc { padding: 1.5rem; }
+  .ltit { font-size: 18px; }
+  .rg { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .rb { padding: 10px 8px; font-size: 12px; }
+}
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border); padding: 2rem; text-align: center;
-    font-size: .78rem; color: var(--text-muted); max-width: 860px; margin: 0 auto;
-  }
+@media(max-width:400px){
+  .fsw { max-width: 140px; }
+  .fs  { padding: 2px 4px; font-size: 8px; }
+  .kg  { grid-template-columns: 1fr; }
+  .pi  { grid-template-columns: 1fr !important; }
+}
 
-  @media (max-width: 600px) {
-    .phase-tabs { flex-wrap: wrap; }
-    .phase-tab { flex: 1 1 45%; border: 1px solid var(--border); }
-    .metrics-row { grid-template-columns: 1fr 1fr; }
-    .nav-links { display: none; }
-    h1 { font-size: 2.2rem; }
-  }
+/* ══ EDIT MODAL ══ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 1rem; overflow-y: auto;
+}
+.modal-overlay.hidden { display: none; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  width: 100%; max-width: 680px;
+  margin: auto;
+  overflow: hidden;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title { font-size: 15px; font-weight: 600; }
+.modal-close {
+  background: none; border: none; color: var(--text2);
+  font-size: 20px; cursor: pointer; padding: 2px 6px;
+  border-radius: 4px; transition: all .15s;
+}
+.modal-close:hover { background: var(--bg3); color: var(--text); }
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 75vh; overflow-y: auto; }
+.modal-section { display: flex; flex-direction: column; gap: 8px; }
+.modal-section-title {
+  font-size: 9px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .07em;
+  font-family: var(--mono); margin-bottom: 2px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+.mrow { display: flex; flex-direction: column; gap: 4px; }
+.mrow label { font-size: 11px; color: var(--text2); font-family: var(--mono); }
+.mrow input[type=text], .mrow textarea, .mrow select {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--rs); padding: 8px 10px;
+  color: var(--text); font-family: var(--sans); font-size: 13px;
+  outline: none; width: 100%; transition: border-color .15s;
+}
+.mrow input[type=text]:focus, .mrow textarea:focus, .mrow select:focus { border-color: var(--accent); }
+.mrow textarea { resize: vertical; min-height: 60px; }
+.mrow select option { background: var(--bg2); }
+.mrow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media(max-width:500px){ .mrow-grid { grid-template-columns: 1fr; } }
+
+/* FASE SELECTOR */
+.fase-sel { display: flex; gap: 4px; flex-wrap: wrap; }
+.fase-opt {
+  padding: 5px 10px; font-size: 10px; font-weight: 700;
+  font-family: var(--mono); border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--bg3);
+  color: var(--text3); transition: all .15s;
+}
+.fase-opt:hover { border-color: var(--accent); color: var(--accent); }
+.fase-opt.sel-done { background: var(--gbg); border-color: rgba(34,197,94,.4); color: var(--green); }
+.fase-opt.sel-active { background: var(--ybg); border-color: rgba(245,158,11,.4); color: var(--yellow); }
+
+.modal-foot {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 8px;
+}
+.btn-cancel {
+  padding: 8px 16px; background: none;
+  border: 1px solid var(--border); border-radius: var(--rs);
+  color: var(--text2); font-family: var(--sans); font-size: 13px; cursor: pointer;
+  transition: all .15s;
+}
+.btn-cancel:hover { border-color: var(--border2); color: var(--text); }
+.btn-save-modal {
+  padding: 8px 18px; background: var(--accent);
+  border: none; border-radius: var(--rs);
+  color: #fff; font-family: var(--sans); font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: opacity .15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-save-modal:hover { opacity: .85; }
+.btn-save-modal.saved { background: var(--green); }
+
+/* EDIT ITEM BUTTON in card */
+.edit-item-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; background: transparent;
+  border: 1px solid var(--border); border-radius: var(--rs);
+  color: var(--text2); font-family: var(--sans); font-size: 11px;
+  cursor: pointer; transition: all .15s; margin-left: auto;
+}
+.edit-item-btn:hover { border-color: var(--yellow); color: var(--yellow); }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-brand">CREAS</div>
-  <div class="nav-links">
-    <a href="#fases">Fases</a>
-    <a href="#categorias">Categorías</a>
-    <a href="#desafios">Desafíos</a>
-    <a href="#equipo">Equipo</a>
-    <a href="#presupuesto">Presupuesto</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-tag">Propuesta de gestión · Mayo 2026</div>
-  <h1>Cómo encaramos<br><em>este proyecto</em></h1>
-  <p class="hero-sub">
-    Un loteo residencial de 26 parcelas en San Javier, Córdoba. 
-    Integrado al paisaje, con identidad propia y una comunidad que elige vivir de otra manera.
-  </p>
-  <div class="hero-meta">
-    <div class="meta-item">Juan Ignacio Sorrón · Gestor de proyecto</div>
-    <div class="meta-dot"></div>
-    <span class="pill pill-green">Barrio en alcance</span>
-    <span class="pill pill-amber">Centro CREAS · fase posterior</span>
+<div id="ls">
+  <div class="lc">
+    <div class="ll">
+      <div class="ld"><i class="ti ti-world"></i></div>
+      <div><div class="lt2">Bamboo Consulting</div><div class="ls2">Portal de proyectos · Ombú</div></div>
+    </div>
+    <div class="ltit">Ingresar</div>
+    <div class="lsub">Seleccioná tu equipo e ingresá la contraseña.</div>
+    <div class="rg">
+      <button class="rb" id="rb-bamboo" onclick="selRole('bamboo')"><span class="ri"><i class="ti ti-building"></i></span>Bamboo</button>
+      <button class="rb" id="rb-ombu"   onclick="selRole('ombu')"><span class="ri"><i class="ti ti-truck"></i></span>Ombú</button>
+    </div>
+    <div class="ig"><label class="il">Contraseña</label><input type="password" class="inf" id="lpw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="lbtn" onclick="doLogin()">Ingresar</button>
+    <div class="lerr" id="lerr"></div>
   </div>
 </div>
 
-<hr class="section-rule">
-
-<!-- FASES -->
-<section id="fases">
-  <div class="section-eyebrow">Fases del proyecto</div>
-  <h2>Cuatro etapas, un camino claro</h2>
-  <p class="section-intro">El proyecto avanza en fases secuenciales. Cada una tiene entregables concretos antes de pasar a la siguiente — sin quemar pasos.</p>
-
-  <div class="phase-tabs" role="tablist">
-    <button class="phase-tab active" onclick="showPhase(0)" role="tab">
-      <div class="tab-num">Fase 1</div>
-      <div class="tab-name">Pre-proyecto</div>
-      <div class="tab-time">2–3 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(1)" role="tab">
-      <div class="tab-num">Fase 2</div>
-      <div class="tab-name">Planeamiento</div>
-      <div class="tab-time">3–5 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(2)" role="tab">
-      <div class="tab-num">Fase 3</div>
-      <div class="tab-name">Ejecución</div>
-      <div class="tab-time">18–24 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(3)" role="tab">
-      <div class="tab-num">Fase 4</div>
-      <div class="tab-name">Cierre</div>
-      <div class="tab-time">2–4 meses</div>
-    </button>
-  </div>
-
-  <div class="phase-panel" id="phase-panel">
-    <div class="panel-title" id="pp-title"></div>
-    <div class="panel-desc" id="pp-desc"></div>
-    <div class="chip-row" id="pp-chips"></div>
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- CATEGORÍAS -->
-<section id="categorias">
-  <div class="section-eyebrow">Categorías de trabajo</div>
-  <h2>Ocho frentes en paralelo</h2>
-  <p class="section-intro">Cada categoría tiene sus propios actores, tiempos y dependencias. Mi rol es mantener todos en movimiento sin que ninguno bloquee a los demás.</p>
-
-  <div class="cat-grid">
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>
-      </div>
-      <div class="cat-name">Tierra y legal</div>
-      <div class="cat-desc">Regularización posesoria, usucapión, acuerdo con Bringas, agrimensura y subdivisión.</div>
+<div id="app">
+  <div class="tb">
+    <div class="tbl">
+      <div class="tblo"><i class="ti ti-chart-dots-2"></i></div>
+      <div><span class="tbt">Tablero Ombú</span><span class="tbs">· Bamboo Consulting</span></div>
     </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="13" rx="2"/><path d="M8 9V5a4 4 0 018 0v4"/></svg>
-      </div>
-      <div class="cat-name">Municipalidad</div>
-      <div class="cat-desc">Factibilidad de parcelamiento, normativa urbanística, permisos y habilitaciones.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-      </div>
-      <div class="cat-name">Infraestructura</div>
-      <div class="cat-desc">Agua, electricidad (CEMDO), caminos internos y externos, conectividad y saneamiento.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div class="cat-name">Equipo</div>
-      <div class="cat-desc">Conformación y coordinación del equipo técnico, legal, comercial y operativo en cada etapa.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
-      <div class="cat-name">Identidad y producto</div>
-      <div class="cat-desc">Perfil del comprador, reglamento, masterplan, diferenciación frente a otros loteos de Traslasierra.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
-      </div>
-      <div class="cat-name">Comercial y marketing</div>
-      <div class="cat-desc">Validación de precio, branding, materiales de venta, canales y estructura comercial.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      </div>
-      <div class="cat-name">Presupuesto y finanzas</div>
-      <div class="cat-desc">Estimación de costos por rubro, estructura de financiamiento y modelo económico del proyecto.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div class="cat-name">Centro CREAS</div>
-      <div class="cat-desc">Previsto desde el inicio. Definición, factibilidad y modelo económico propio en Fase 4.</div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- DESAFÍOS -->
-<section id="desafios">
-  <div class="section-eyebrow">Desafíos críticos</div>
-  <h2>Lo que puede frenar el proyecto</h2>
-  <p class="section-intro">No hay plan honesto sin identificar los obstáculos reales. Estos son los puntos que hay que resolver antes de que bloqueen el avance.</p>
-
-  <div class="challenge-list">
-    <div class="challenge bloq">
-      <div class="ch-marker bloq"></div>
-      <div>
-        <div class="ch-title">Situación legal de la tierra <span class="ch-badge badge-bloq">Bloqueante</span></div>
-        <div class="ch-desc">La tierra es de José Bringas por derecho posesorio — sin escritura. Sin título transferible no hay lotes vendibles. Es el primer problema a resolver, antes que todo lo demás.</div>
-      </div>
-    </div>
-    <div class="challenge bloq">
-      <div class="ch-marker bloq"></div>
-      <div>
-        <div class="ch-title">Factibilidad municipal <span class="ch-badge badge-bloq">Bloqueante</span></div>
-        <div class="ch-desc">No sabemos todavía si el municipio de San Javier permite el parcelamiento tal como está planteado. Un "no" o condiciones imprevistas pueden cambiar el layout, los costos y los plazos.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Agua: factibilidad geológica <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">Ya existe un presupuesto de prospección hidrogeológica (HidroMonte, Geól. Mario Aguirre). Sin confirmar que hay agua en el predio, la viabilidad del barrio está en el aire.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Electricidad: distancia y costo <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">El proveedor es la Cooperativa CEMDO. La distancia al punto de conexión define si el costo de obra es manejable. Existen mecanismos de financiamiento bajo la Ley Provincial 11.062.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Validación del precio de venta <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">El USD 14/m² es un punto de partida, no un dato validado. Antes del lanzamiento hay que confirmar que cubre los costos de infraestructura y deja margen real para todos.</div>
-      </div>
+    <div class="tbr">
+      <span class="rbadge" id="rbadge"></span>
+      <button class="ob" onclick="logout()"><i class="ti ti-logout" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Salir</button>
     </div>
   </div>
 
-  <div class="legend">
-    <div class="leg"><div class="leg-dot" style="background:var(--red-soft)"></div>Bloqueante — resolver antes de avanzar</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--amber)"></div>Clave — alto impacto en viabilidad</div>
-  </div>
-</section>
+  <div class="mn">
+    <div class="kg" style="margin-top:1rem">
+      <div class="kpi"><div class="kl">Ítems activos</div><div class="kv">11</div><div class="ks2">En seguimiento</div></div>
+      <div class="kpi"><div class="kl">Ahorro anual proyectado</div><div class="kv" id="kt">—</div><div class="ks2" id="ksub">Completar datos por ítem</div></div>
+      <div class="kpi ph" style="font-size:12px;color:var(--text3)">— a definir —</div>
+      <div class="kpi ph" style="font-size:12px;color:var(--text3)">— a definir —</div>
+    </div>
 
-<hr class="section-rule">
-
-<!-- EQUIPO -->
-<section id="equipo">
-  <div class="section-eyebrow">Equipo base</div>
-  <h2>Quién hace qué</h2>
-  <p class="section-intro">El equipo fundador está conformado. Los roles técnicos y comerciales se incorporan a medida que el proyecto avanza de fase.</p>
-
-  <div class="team-grid">
-    <div class="member me">
-      <div class="avatar av-moss">JI</div>
-      <div class="member-name">Juan Ignacio Sorrón</div>
-      <div class="member-role">Gestor del proyecto</div>
-      <div class="tag-row">
-        <span class="tag me">Estructuración</span>
-        <span class="tag me">Coordinación</span>
-        <span class="tag me">Hoja de ruta</span>
-        <span class="tag me">PM</span>
+    <div class="bq">
+      <div class="bqh"><i class="ti ti-alert-triangle" style="color:var(--red)"></i>Bloqueos activos<span class="tag td" id="bloq-badge">3 críticos</span></div>
+      <div class="bql">
+        <div class="bqi"><div class="bqd r"></div><div><div class="bqt">Sistema de ejes — proveedor marcó 2 interferencias (Too Close): bolsa de aire vs rueda y cámara de freno vs brazo · Ing. Berta debe validar</div><div class="bqo">Ing. Adrián Berta (Ombú Ingeniería) · Pendiente respuesta</div></div></div>
+        <div class="bqi"><div class="bqd r"></div><div><div class="bqt">Elástico de suspensión — anticipo 30% = USD 6.612,48 pendiente de pago · Sin pago no arranca producción</div><div class="bqo">Ombú Compras (Constanza / Agustina) · PI + PL ya enviados</div></div></div>
+        <div class="bqi"><div class="bqd r"></div><div><div class="bqt">Llantas acero — OC 50011837 emitida · PI + PL enviados · Anticipo pendiente · Sin pago no arranca producción</div><div class="bqo">Ombú Compras · Anticipo pendiente</div></div></div>
       </div>
     </div>
-    <div class="member">
-      <div class="avatar av-bark">GU</div>
-      <div class="member-name">Guillermo</div>
-      <div class="member-role">Visión y articulación</div>
-      <div class="tag-row">
-        <span class="tag">Visión</span>
-        <span class="tag">Vínculo local</span>
-        <span class="tag">Articulación</span>
-      </div>
+
+    <p class="sl">Flujo de trabajo</p>
+    <div class="ley">
+      <div class="fl"><div class="fln">F0</div><div class="flt">Origen comercial</div></div>
+      <div class="fl"><div class="fln">F1</div><div class="flt">Definición req.</div></div>
+      <div class="fl"><div class="fln">F2</div><div class="flt">Sourcing</div></div>
+      <div class="fl"><div class="fln">F3</div><div class="flt">Validación técnica</div></div>
+      <div class="fl"><div class="fln">F4</div><div class="flt">RFQ y cotización</div></div>
+      <div class="fl"><div class="fln">F5</div><div class="flt">Evaluación</div></div>
+      <div class="fl"><div class="fln">F6</div><div class="flt">Implementación</div></div>
+      <div class="fl"><div class="fln">F7</div><div class="flt">Logística</div></div>
+      <div class="fl"><div class="fln">F8</div><div class="flt">Estabilización</div></div>
     </div>
-    <div class="member">
-      <div class="avatar av-gray">AR</div>
-      <div class="member-name">Ariel</div>
-      <div class="member-role">Socio impulsor</div>
-      <div class="tag-row">
-        <span class="tag">Decisiones</span>
-        <span class="tag">Financiamiento</span>
-      </div>
+
+    <p class="sl">Ítems</p>
+    <div class="tabs">
+      <button class="tab on" onclick="fil('todos',this)">Todos (11)</button>
+      <button class="tab" onclick="fil('transito',this)">En tránsito (3)</button>
+      <button class="tab" onclick="fil('cotizacion',this)">Cotización (1)</button>
+      <button class="tab" onclick="fil('tecnica',this)">Val. técnica (1)</button>
+      <button class="tab" onclick="fil('sourcing',this)">Sourcing (2)</button>
+      <button class="tab" onclick="fil('implementacion',this)">Implementación (3)</button>
+      <button class="tab" onclick="fil('evaluacion',this)">Evaluación (1)</button>
     </div>
-    <div class="member">
-      <div class="avatar av-gray">JB</div>
-      <div class="member-name">José Bringas</div>
-      <div class="member-role">Poseedor de la tierra</div>
-      <div class="tag-row">
-        <span class="tag">Tierra</span>
-        <span class="tag">Vínculo local</span>
-      </div>
-    </div>
+
+    <div class="ig2" id="ig2"></div>
   </div>
 
-  <div class="to-hire">
-    <strong>A incorporar en Fase 1:</strong> abogado inmobiliario · agrimensor · gestor municipal · arquitecto/urbanista · referentes de infraestructura (agua, electricidad, caminos)
+<!-- ═══ EDIT MODAL ═══ -->
+<div class="modal-overlay hidden" id="edit-modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="modal-item-name">Editar ítem</span>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- FASE -->
+      <div class="modal-section">
+        <div class="modal-section-title">Fase actual</div>
+        <div class="fase-sel" id="modal-fase-sel"></div>
+      </div>
+
+      <!-- PRÓXIMO PASO -->
+      <div class="modal-section">
+        <div class="modal-section-title">Próximo paso</div>
+        <div class="mrow"><label>Descripción</label><textarea id="modal-ns" rows="2"></textarea></div>
+        <div class="mrow"><label>Responsable / nota</label><input type="text" id="modal-nso"/></div>
+      </div>
+
+      <!-- IMPORTANTE -->
+      <div class="modal-section">
+        <div class="modal-section-title">Bloqueo / Importante (dejar vacío si no hay)</div>
+        <div class="mrow"><label>Descripción del bloqueo</label><textarea id="modal-imp" rows="2"></textarea></div>
+        <div class="mrow"><label>Responsable / fecha</label><input type="text" id="modal-impo"/></div>
+      </div>
+
+      <!-- PROVEEDOR -->
+      <div class="modal-section">
+        <div class="modal-section-title">Proveedor</div>
+        <div class="mrow-grid">
+          <div class="mrow"><label>Nombre</label><input type="text" id="modal-prov-nombre"/></div>
+          <div class="mrow"><label>Región</label><input type="text" id="modal-prov-region"/></div>
+          <div class="mrow"><label>Incoterm</label><input type="text" id="modal-prov-incoterm"/></div>
+          <div class="mrow"><label>Invoice</label><input type="text" id="modal-prov-invoice"/></div>
+        </div>
+      </div>
+
+      <!-- COMERCIAL -->
+      <div class="modal-section">
+        <div class="modal-section-title">Comercial</div>
+        <div class="mrow-grid">
+          <div class="mrow"><label>Lead time</label><input type="text" id="modal-com-lead"/></div>
+          <div class="mrow"><label>Términos de pago</label><input type="text" id="modal-com-pago"/></div>
+          <div class="mrow"><label>MOQ</label><input type="text" id="modal-com-moq"/></div>
+          <div class="mrow"><label>Contenedor</label><input type="text" id="modal-com-cont"/></div>
+          <div class="mrow"><label>Puerto de salida</label><input type="text" id="modal-com-puerto"/></div>
+          <div class="mrow"><label>Nota comercial</label><input type="text" id="modal-com-nota"/></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save-modal" id="modal-save-btn" onclick="saveModal()">
+        <i class="ti ti-device-floppy"></i> Guardar cambios
+      </button>
+    </div>
   </div>
-</section>
+</div>
 
-<hr class="section-rule">
-
-<!-- PRESUPUESTO -->
-<section id="presupuesto">
-  <div class="section-eyebrow">Presupuesto y tiempos</div>
-  <h2>Lo que sabemos. Lo que hay que relevar.</h2>
-  <p class="section-intro">No hay números inventados. Distinguimos lo que ya está estimado de lo que requiere relevamiento técnico.</p>
-
-  <div class="metrics-row">
-    <div class="metric">
-      <div class="metric-label">Duración estimada</div>
-      <div class="metric-val">25–36</div>
-      <div class="metric-sub">meses ciclo completo</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Volumen de ventas</div>
-      <div class="metric-val">~$1.8M</div>
-      <div class="metric-sub">USD · 26 lotes · USD 14/m²</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Pre-proyecto</div>
-      <div class="metric-val">2–3</div>
-      <div class="metric-sub">meses para validar viabilidad</div>
-    </div>
-  </div>
-
-  <table class="budget-table">
-    <thead>
-      <tr>
-        <th>Rubro</th>
-        <th>Estado</th>
-        <th style="text-align:right">Estimación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Precio de venta (USD 14/m²)</td>
-        <td><span class="status-badge s-ok">Dato disponible</span></td>
-        <td class="td-right">A validar vs. costos</td>
-      </tr>
-      <tr>
-        <td>Prospección hidrogeológica (agua)</td>
-        <td><span class="status-badge s-ok">Cotizado</span></td>
-        <td class="td-right">$1.302.500</td>
-      </tr>
-      <tr>
-        <td>Red eléctrica (Cooperativa CEMDO)</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Caminos internos y acceso externo</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Legal, agrimensura y subdivisión</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Marketing, branding y comercialización</td>
-        <td><span class="status-badge s-none">Sin dato</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Centro CREAS (Fase 4)</td>
-        <td><span class="status-badge s-none">Sin dato</span></td>
-        <td class="td-right">Modelo propio</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<footer>
-  Proyecto CREAS · San Javier, Córdoba · Propuesta elaborada por Juan Ignacio Sorrón · Mayo 2026
-</footer>
+</div>
 
 <script>
-const phases = [
-  {
-    title: 'Fase 1 — Pre-proyecto',
-    desc: 'Convertir la idea en una base estructurada y viable. El objetivo es resolver los dos bloqueantes principales: situación legal de la tierra y factibilidad municipal. Sin esto, no hay proyecto vendible ni inversión justificada.',
-    chips: ['Situación legal tierra','Contacto municipio','Prospección agua','Factibilidad CEMDO','Relevamiento caminos','Definición identidad barrio','Conformar equipo técnico','Estimaciones preliminares']
-  },
-  {
-    title: 'Fase 2 — Planeamiento',
-    desc: 'Con los bloqueantes resueltos, diseñar el proyecto en detalle: masterplan definitivo, reglamentos, presupuestos sólidos y estructura legal-comercial. Esta fase produce el proyecto que sale al mercado.',
-    chips: ['Masterplan definitivo','Reglamento barrio','Presupuesto infraestructura','Estructura legal comercial','Branding y renders','Plan de ventas','Estrategia de canales']
-  },
-  {
-    title: 'Fase 3 — Ejecución',
-    desc: 'La fase más larga y la que genera el resultado. Obras de infraestructura en paralelo con lanzamiento comercial y ventas. El objetivo: lotes entregables, compradores satisfechos, caja funcionando.',
-    chips: ['Obras caminos','Red eléctrica','Agua y saneamiento','Lanzamiento comercial','Ventas activas','Gestión de cobranza','Atención a compradores']
-  },
-  {
-    title: 'Fase 4 — Cierre',
-    desc: 'Escrituración y entrega de los últimos lotes. Cierre administrativo y legal del proyecto. Es también el punto de evaluación y arranque del Centro CREAS como segunda etapa independiente.',
-    chips: ['Escrituras finales','Entrega propietarios','Cierre legal y contable','Evaluación Centro CREAS','Transición a Fase 5']
-  }
+var PW={bamboo:'bambo3435',ombu:'ombu2026'};
+var role=null,selR=null;
+
+var TEC_FIELDS=[
+  {key:'nombre',     label:'Nombre'},
+  {key:'tipo',       label:'Tipo'},
+  {key:'prod_final', label:'Producto final'},
+  {key:'material',   label:'Material'},
+  {key:'peso',       label:'Peso'},
+  {key:'dimensiones',label:'Dimensiones'},
+  {key:'nota',       label:'Nota técnica',multiline:true}
 ];
 
-function showPhase(i) {
-  document.querySelectorAll('.phase-tab').forEach((t, j) => t.classList.toggle('active', i === j));
-  const p = phases[i];
-  document.getElementById('pp-title').textContent = p.title;
-  document.getElementById('pp-desc').textContent = p.desc;
-  document.getElementById('pp-chips').innerHTML = p.chips.map(c => `<span class="chip">${c}</span>`).join('');
-}
-showPhase(0);
+var ITEMS=[
+  {id:'p1',nombre:'Guardaciclista de aluminio',fase:'transito',fases:[1,1,1,1,1,1,1,2,0],
+   ns:'Arribo estimado 13/07/2026 · Rosario · Coordinar con Zanoletti para el despacho',
+   nso:'B/L recibida ✓ · NCM resuelto ✓ · Globe Steel pago completo ✓',
+   tec:{nombre:'Tabla guardaciclista aluminio',tipo:'Pieza bajo plano · perfil extruido',prod_final:'Acoplados y semirremolques',material:'Aluminio 6063-T5',peso:'Variable (0,92–3,52 kg/u)',dimensiones:'Sección 102×30 mm · Longitudes: 600/800/1.300/1.600/2.300 mm',nota:'Powder coat RAL 7021 · 5 variantes · Inspección 01/04/2026: OK'},
+   refs:['812339','812322','812323','812324','812326'],
+   prov:{Nombre:'Globe Steel Trading Co., Ltd.',Región:'Shanghai · Guangzhou, China',Incoterm:'FOB Guangzhou',Invoice:'GB-20251106'},
+   pagos:[{l:'Anticipo 30%',ok:true,d:'22/12/2025'},{l:'Saldo 70%',ok:true,d:'07/05/2026'}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'13/07/2026 · Rosario','Nota':''},
+   pu:'u',vol:'6200',fecha:'2026-05-20'},
 
-// Fade-in on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; } });
-}, { threshold: 0.1 });
-document.querySelectorAll('section').forEach(s => {
-  s.style.opacity = 0; s.style.transform = 'translateY(16px)';
-  s.style.transition = 'opacity .5s ease, transform .5s ease';
-  observer.observe(s);
-});
+  {id:'p2',nombre:'Paragolpes acero',fase:'transito',fases:[1,1,1,1,1,1,1,2,0],
+   ns:'Recibir B/L y documentos de Kemi · Enviar al despachante en Rosario · Invoice actualizada a 28 pcs ✓',
+   nso:'B/L recibida ✓ · Kemi pago completo ✓',
+   
+   tec:{nombre:'Conjunto soldado paragolpes tubular',tipo:'Pieza bajo plano · conjunto soldado',prod_final:'Acoplados y semirremolques',material:'Acero Q355B + SAE 1010',peso:'~78,95 kg/u',dimensiones:'2.400 mm long. × 450 mm alto',nota:'12 subconjuntos · Rigidizadores, ménsulas y soportes · Rev. 4'},
+   refs:['027397'],
+   prov:{Nombre:'Kemi Global Trading Co.',Región:'Guangzhou, China',Incoterm:'FOB Qingdao',Invoice:'GL-20251128'},
+   pagos:[{l:'Anticipo 30%',ok:true,d:'22/12/2025'},{l:'Saldo 70%',ok:true,d:'11/05/2026'}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'20/07/2026 · Rosario','Nota':''},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p3',nombre:'Vigas de batea',fase:'transito',fases:[1,1,1,1,1,1,1,2,0],
+   ns:'Arribo estimado 20/07/2026 · Rosario · Coordinar con Zanoletti para el despacho',
+   nso:'B/L recibida ✓ · Kemi pago completo ✓ · Mismo contenedor que Paragolpes',
+   tec:{nombre:'Vigas de batea',tipo:'Pieza bajo plano · par',prod_final:'Chasis batea 27–30m³',material:'Acero (ver planos)',peso:'~855 kg/set',dimensiones:'9.170 mm longitud',nota:'Par: viga izq. 040048 (Rev.1) + viga der. 040049 (Rev.2) · Mismo 40HC que Paragolpes'},
+   refs:['040048','040049'],
+   prov:{Nombre:'Kemi Global Trading Co.',Región:'Guangzhou, China',Incoterm:'FOB Qingdao',Invoice:'GL-20251128'},
+   pagos:[{l:'Anticipo 30%',ok:true,d:'22/12/2025'},{l:'Saldo 70%',ok:true,d:'11/05/2026'}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'20/07/2026 · Rosario','Nota':''},
+   pu:'set',vol:'',fecha:''},
+
+  {id:'p4',nombre:'Puerta de batea',fase:'cotizacion',fases:[1,1,1,1,2,0,0,0,0],
+   ns:'MJ Lim lanza RFQ a proveedores con especificación de aceite Sinopec R5326B · Cerrar cotizaciones comparables',
+   nso:'Tratamiento superficial definido ✓ · Aceite Sinopec R5326B aceptado por Ombú para cotización · Validación en planta requerida antes de producción',
+   tec:{nombre:'Puerta de batea',tipo:'Pieza bajo plano',prod_final:'Batea volcadora',material:'A confirmar con proveedor',peso:'A completar',dimensiones:'A completar',nota:'3 modelos: 30m³ / 35m³ / 50m³ · Bisagras punteadas (no soldadas completas) · Primer requerido · Ombú aplica: desengrase + fosfatado + pasivado · Granallado + primer manual aceptable (a validar con ensayos)'},
+   refs:['040439','040442','037984','037288'],
+   prov:{Nombre:'2 proveedores en evaluación',Región:'En evaluación',Incoterm:'A definir'},
+   pagos:[],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p5',nombre:'Vigas de remolque',fase:'implementacion',fases:[1,1,1,1,1,1,2,0,0],
+   ns:'Producción estimada lista ~05/06/2026 · Coordinar embarque con Syntrans Qingdao (Lemon Li)',
+   nso:'Zecomex (Mauricio Rivero) coordina embarque · Agente origen: Syntrans Qingdao (Lemon Li) · Julián García confirmó cota 30mm para cortes en C ✓',
+   imp:'Confirmar fecha exacta de producción con MJ',
+   impo:'MJ Lim · Bamboo',
+   tec:{nombre:'Vigas de remolque',tipo:'Pieza bajo plano · par por modelo',prod_final:'Chasis acoplado',material:'Acero (ver planos)',peso:'029117/029118: 436 kg/u · 029846/029847: 451 kg/u',dimensiones:'9,30 m (029117/029118) · 9,60 m (029846/029847)',nota:'2 modelos de acoplado · OC Ombú N° 50011308 · Cantidades ajustadas por peso: 10 sets 9,30m + 20 sets 9,60m · Peso total ~26,74 t · 1×40HC'},
+   refs:['029117','029118','029846','029847'],
+   prov:{Nombre:'Kemi Global Trading Co.',Región:'Guangzhou, China',Incoterm:'FOB Qingdao',Invoice:'GL-202602'},
+   pagos:[{l:'Anticipo 30%',ok:true,d:'11/05/2026'},{l:'Saldo 70%',ok:false,d:''}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'set',vol:'',fecha:''},
+
+  
+
+  {id:'p7',nombre:'Sistema de ejes completo',fase:'tecnica',fases:[1,1,1,2,0,0,0,0,0],
+   ns:'Ing. Berta debe revisar 2 puntos críticos marcados como Too Close por el proveedor: bolsa de aire vs rueda/maza · cámara de freno vs brazo de suspensión',
+   nso:'Plano actualizado enviado a Berta el 27/05/2026 · Proveedor incorporó correcciones de Ombú · Pendiente respuesta',
+   imp:'Proveedor marcó 2 interferencias potenciales (Too Close) en conjunto 1+2 que requieren validación de Ombú antes de cerrar diseño',
+   impo:'Ing. Adrián Berta (Ombú Ingeniería) · Pendiente respuesta',
+   tec:{nombre:'Sistema de ejes 13T configuración 1+2',tipo:'Kit externo · desarrollo conjunto',prod_final:'Acoplados y semirremolques',material:'Acero estructural · eje Ø127×19mm',peso:'A confirmar con proveedor',dimensiones:'Track 1.890mm · Long. total ~2.216mm',nota:'Config. 1+2: eje direccional elevable (neumático) + tándem 2 ejes mecánicos · ABS incluido · Regulador automático · Freno tambor Ø420×203 · Rodamiento HM518445/10 · Air spring Firestone 6348 propuesto'},
+   refs:[],
+   prov:{Nombre:'Shandong JinSheng Axle Mfg. Co., Ltd.',Región:'Shandong, China',Incoterm:'A definir'},
+   pagos:[],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'kit',vol:'',fecha:''},
+
+  {id:'p8',nombre:'Elástico de suspensión estándar',fase:'implementacion',fases:[1,1,1,1,1,1,2,0,0],
+   ns:'Ombú paga anticipo 30% = USD 6.612,48 para iniciar producción',
+   nso:'OC 50011830 ✓ · PI + PL enviados ✓ · Sin pago no arranca producción',
+   imp:'Pago anticipo 30% = USD 6.612,48 pendiente · Sin este pago no inicia la producción',
+   impo:'Ombú Compras (Constanza / Agustina) · Urgente',
+   tec:{nombre:'Elástico de suspensión mecánica',tipo:'Pieza estándar según plano Ombú',prod_final:'Acoplados y semirremolques',material:'Acero muelle',peso:'A completar',dimensiones:'Según plano actualizado Ombú',nota:'OC Ombú N° 50011830 · 410 u · USD 53,76/u · Total USD 22.041,60 · Entrega estimada 20/08/2026 · Elástico trasero 12 hojas 65,90 kg · Cód. Ombú: 805950'},
+   refs:[],
+   prov:{Nombre:'Shandong Luyang Auto Parts Co., Ltd.',Región:'Weifang, Shandong, China',Incoterm:'FOB Qingdao',Banco:'Bank of China Weifang · SWIFT: BKCHCNBJ500'},
+   pagos:[{l:'Anticipo 30% · USD 6.612,48',ok:false,d:''},{l:'Saldo 70%',ok:false,d:''}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':'50011830 · 21/05/2026'},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p9',nombre:'Lanza y Vantren (018975 / 029102)',fase:'sourcing',fases:[1,1,2,0,0,0,0,0,0],
+   ns:'MJ lidera búsqueda de proveedores en China · Planos detallados disponibles',
+   nso:'Planos recibidos ✓ · MJ identificó fabricante local vía Kemi · Investigación de mercado en curso',
+   tec:{nombre:'Lanza armada + Vantren doble 3 ejes',tipo:'Piezas bajo plano · conjuntos soldados',prod_final:'Remolque',material:'Tubo estructural + Acero estructural',peso:'Lanza ~58 kg · Vantren ~312 kg',dimensiones:'A confirmar con proveedor',nota:'Lanza 018975: estructura soldada tipo A · Vantren 029102: chasis soldado complejo, múltiples subconjuntos · Mismo proveedor para ambos · Planos detallados disponibles'},
+   refs:['018975','029102'],
+   prov:{Nombre:'En evaluación (fabricante local vía Kemi)',Región:'China',Incoterm:'A definir'},
+   pagos:[],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p11',nombre:'Llantas de aluminio',fase:'sourcing',fases:[1,1,2,0,0,0,0,0,0],
+   ns:'Esperar estabilización del mercado de aluminio en China · Retomar cotización cuando el proveedor pueda dar precio firme',
+   nso:'Mercado aluminio chino con fuerte volatilidad (RMB 24.050–24.610/ton en 10 días) · Recomendación Bamboo: esperar',
+   tec:{nombre:'Llanta de aluminio para semirremolque',tipo:'Pieza estándar',prod_final:'Acoplados y semirremolques',material:'Aluminio',peso:'A confirmar',dimensiones:'A confirmar',nota:'Muestras recibidas y evaluadas por Ombú ✓ · Sin precio firme por volatilidad del aluminio chino · Bamboo recomienda esperar · Retomar cuando mercado se estabilice'},
+   refs:[],
+   prov:{Nombre:'Shandong Luyang Auto Parts Co., Ltd.',Región:'Weifang, Shandong, China',Incoterm:'FOB Qingdao',Banco:'Bank of China Weifang · SWIFT: BKCHCNBJ500'},
+   pagos:[],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p12',nombre:'Llantas de acero',fase:'implementacion',fases:[1,1,1,1,1,1,2,0,0],
+   ns:'Ombú paga anticipo para iniciar producción · PI + PL ya enviados',
+   nso:'OC 50011837 emitida ✓ · PI + PL enviados y confirmados por Jesús Herrera (Ombú Compras) ✓',
+   tec:{nombre:'Llanta de acero para semirremolque',tipo:'Pieza estándar',prod_final:'Acoplados y semirremolques',material:'Acero',peso:'A confirmar',dimensiones:'A confirmar',nota:'OC Ombú 50011837 ✓ · USD 32,76/u FOB Qingdao (actualizado) · 640 u/contenedor · Lead time 20 días'},
+   refs:[],
+   prov:{Nombre:'Shandong Luyang Auto Parts Co., Ltd.',Región:'Weifang, Shandong, China',Incoterm:'FOB Qingdao',Banco:'Bank of China Weifang · SWIFT: BKCHCNBJ500'},
+   pagos:[{l:'Anticipo 30%',ok:false,d:''},{l:'Saldo 70%',ok:false,d:''}],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':'50011837'},
+   pu:'u',vol:'',fecha:''},
+
+  {id:'p13',nombre:'Patas de apoyo de remolque',fase:'evaluacion',fases:[1,1,1,1,1,2,0,0,0],
+   ns:'Ombú decidió no avanzar — conforme con proveedor actual · Proyecto en pausa',
+   nso:'Bamboo recomienda retomar si cambian condiciones · Precio logrado: USD 120,23/u (−17% vs oct.2025) · Proveedor validado en visita abril 2026',
+   tec:{nombre:'Patas de apoyo de remolque (Landing Gear)',tipo:'Pieza estándar',prod_final:'Acoplados y semirremolques',material:'Acero',peso:'A confirmar',dimensiones:'A confirmar',nota:'Muestras recibidas y evaluadas por Ombú · USD 120,23/u FOB Qingdao · 200 u/contenedor'},
+   refs:[],
+   prov:{Nombre:'Shandong Luyang Auto Parts Co., Ltd.',Región:'Weifang, Shandong, China',Incoterm:'FOB Qingdao',Banco:'Bank of China Weifang · SWIFT: BKCHCNBJ500'},
+   pagos:[],
+   com:{'Lead':'A confirmar','Pago':'A definir','MOQ':'A confirmar','Contenedor':'A confirmar','Puerto':'A definir','Flete':'','Arribo est.':'','Nota':''},
+   pu:'u',vol:'',fecha:''}];
+
+var FN=['F0','F1','F2','F3','F4','F5','F6','F7','F8'];
+var ah={};ITEMS.forEach(i=>ah[i.id]=0);
+var mem={};
+var editTec={};
+
+// ── AUTH ──
+function selRole(r){selR=r;document.querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));document.getElementById('rb-'+r).classList.add('sel');}
+
+function doLogin(){
+  var pw=document.getElementById('lpw').value,err=document.getElementById('lerr');
+  if(!selR){err.style.display='block';err.textContent='Seleccioná un equipo.';return;}
+  if(pw===PW[selR]){
+    role=selR;
+    document.getElementById('ls').style.display='none';
+    document.getElementById('app').style.display='block';
+    var b=document.getElementById('rbadge');b.textContent=role==='bamboo'?'Bamboo':'Ombú';b.className='rbadge '+role;
+    render();loadAll();
+  }else{err.style.display='block';err.textContent='Contraseña incorrecta.';}
+}
+
+function logout(){role=null;selR=null;document.getElementById('ls').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('lpw').value='';document.querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));}
+
+// ── PERMISSIONS ──
+function canEdit(f){if(role==='bamboo')return true;return['team','actual','prov','vol'].includes(f);}
+function isBamboo(){return role==='bamboo';}
+
+// ── STORAGE ──
+async function save2(id,d){mem['ok_'+id]=d;try{await window.storage.set('ok_'+id,JSON.stringify(d),true);}catch(e){}}
+async function load2(id){if(mem['ok_'+id])return mem['ok_'+id];try{var r=await window.storage.get('ok_'+id,true);if(r&&r.value){mem['ok_'+id]=JSON.parse(r.value);return mem['ok_'+id];}}catch(e){}return null;}
+async function loadAll(){for(var item of ITEMS){var d=await load2(item.id);if(d)applyData(item.id,d);}recalcAll();}
+
+function gv(id){var e=document.getElementById(id);return e?e.value:'';}
+function sv(id,v){var e=document.getElementById(id);if(e&&v!==undefined&&v!==null)e.value=v;}
+
+function applyData(id,d){
+  sv(id+'_sp',d.sp);sv(id+'_lt',d.lt);sv(id+'_lc',d.lc);
+  sv(id+'_ac',d.ac);sv(id+'_pr',d.pr);sv(id+'_vo',d.vo);sv(id+'_la',d.la);sv(id+'_fe',d.fe);
+  TEC_FIELDS.forEach(function(f){sv(id+'_tec_'+f.key,d['tec_'+f.key]);});
+  // restore saved pagos
+  if(d.pagos){
+    var item=ITEMS.find(i=>i.id===id);
+    if(item) item.pagos=d.pagos;
+    renderPagos(id);
+  }
+}
+
+function collectData(id){
+  var d={sp:gv(id+'_sp'),lt:gv(id+'_lt'),lc:gv(id+'_lc'),ac:gv(id+'_ac'),pr:gv(id+'_pr'),vo:gv(id+'_vo'),la:gv(id+'_la'),fe:gv(id+'_fe')};
+  TEC_FIELDS.forEach(function(f){d['tec_'+f.key]=gv(id+'_tec_'+f.key);});
+  // collect pagos from edit rows if in edit mode
+  d.pagos=collectPagos(id);
+  return d;
+}
+
+async function saveI(id){
+  var d=collectData(id);
+  // update item pagos
+  var item=ITEMS.find(i=>i.id===id);
+  if(item){
+    item.pagos=d.pagos;
+    TEC_FIELDS.forEach(function(f){if(d['tec_'+f.key])item.tec[f.key]=d['tec_'+f.key];});
+  }
+  await save2(id,d);
+  var btn=document.getElementById('sb_'+id);
+  if(btn){btn.classList.add('saved');btn.innerHTML='<i class="ti ti-check"></i> Guardado';setTimeout(()=>{btn.classList.remove('saved');btn.innerHTML='<i class="ti ti-device-floppy"></i> Guardar cambios';},2000);}
+  renderPagos(id);
+  recalcAll();
+}
+
+// ── PAGOS ──
+function collectPagos(id){
+  var rows=document.querySelectorAll('#pagos_edit_'+id+' .pago-edit-row');
+  if(!rows.length){
+    // not in edit mode — return existing
+    var item=ITEMS.find(i=>i.id===id);
+    return item?item.pagos:[];
+  }
+  var out=[];
+  rows.forEach(function(row){
+    var lbl=row.querySelector('.pago-lbl-input');
+    var dt=row.querySelector('.pago-dt-input');
+    var chk=row.querySelector('.pago-chk-input');
+    if(lbl&&lbl.value.trim()){
+      out.push({l:lbl.value.trim(),ok:chk?chk.checked:false,d:dt?dt.value:''});
+    }
+  });
+  return out;
+}
+
+function addPago(id){
+  var item=ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  item.pagos.push({l:'Nuevo pago',ok:false,d:''});
+  renderPagos(id);
+}
+
+function delPago(id,idx){
+  var item=ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  item.pagos.splice(idx,1);
+  renderPagos(id);
+}
+
+function renderPagos(id){
+  var item=ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  var wrap=document.getElementById('pagos_wrap_'+id);
+  if(!wrap) return;
+
+  if(isBamboo()){
+    // edit mode for bamboo
+    var html='<div id="pagos_edit_'+id+'" class="pagos-list">';
+    item.pagos.forEach(function(p,i){
+      html+=`<div class="pago-edit-row">
+        <input class="pago-lbl-input" type="text" value="${p.l.replace(/"/g,'&quot;')}" placeholder="Nombre del pago" style="flex:1">
+        <label class="pago-check"><input class="pago-chk-input" type="checkbox" ${p.ok?'checked':''}> Realizado</label>
+        <input class="pago-dt-input" type="date" value="${p.d||''}" ${!p.ok?'disabled':''}>
+        <button class="pago-del" onclick="delPago('${id}',${i})" title="Eliminar"><i class="ti ti-trash"></i></button>
+      </div>`;
+    });
+    html+='</div>';
+    html+=`<button class="pago-add-btn" style="margin-top:8px" onclick="addPago('${id}')"><i class="ti ti-plus" style="font-size:10px;vertical-align:-1px"></i> Agregar pago</button>`;
+    wrap.innerHTML=html;
+    // enable/disable date on checkbox change
+    wrap.querySelectorAll('.pago-chk-input').forEach(function(chk){
+      chk.addEventListener('change',function(){
+        var row=chk.closest('.pago-edit-row');
+        var dt=row.querySelector('.pago-dt-input');
+        if(dt) dt.disabled=!chk.checked;
+      });
+    });
+  } else {
+    // view mode for ombu
+    if(!item.pagos.length){
+      wrap.innerHTML='<div style="font-size:12px;color:var(--text3);font-style:italic">Sin pagos registrados</div>';
+      return;
+    }
+    var html2='<div class="pagos-list">';
+    item.pagos.forEach(function(p){
+      var cls=p.ok?'ok':'pend';
+      html2+=`<div class="pago-row ${cls}">
+        <div class="pago-dot ${cls}"></div>
+        <div class="pago-label-txt">${p.l}</div>
+        <div class="pago-date">${p.ok&&p.d?p.d:''}</div>
+        <div class="pago-status ${cls}">${p.ok?'✓ Realizado':'Pendiente'}</div>
+      </div>`;
+    });
+    html2+='</div>';
+    wrap.innerHTML=html2;
+  }
+}
+
+// ── TEC EDIT TOGGLE ──
+function toggleEditTec(id){
+  editTec[id]=!editTec[id];
+  var btn=document.getElementById('etbtn_'+id);
+  var view=document.getElementById('tec_view_'+id);
+  var edit=document.getElementById('tec_edit_'+id);
+  if(editTec[id]){
+    if(btn){btn.classList.add('active');btn.innerHTML='<i class="ti ti-eye"></i> Ver';}
+    if(view) view.style.display='none';
+    if(edit) edit.style.display='block';
+  }else{
+    if(btn){btn.classList.remove('active');btn.innerHTML='<i class="ti ti-pencil"></i> Editar';}
+    if(view) view.style.display='block';
+    if(edit) edit.style.display='none';
+  }
+}
+
+// ── CALC ──
+function fmt(n){return'USD '+Math.round(n).toLocaleString('es-AR');}
+function calcI(id){
+  var ac=parseFloat(gv(id+'_ac'))||0,la=parseFloat(gv(id+'_la'))||0,vo=parseFloat(gv(id+'_vo'))||0;
+  var pu=ac-la,an=pu*vo,pc=ac>0?(pu/ac*100):0;
+  var epu=document.getElementById(id+'_rpu'),ean=document.getElementById(id+'_ran'),epc=document.getElementById(id+'_rpc');
+  if(epu&&ean&&epc){
+    if(ac>0&&la>0&&vo>0){
+      epu.textContent=fmt(pu);ean.textContent=fmt(an);epc.textContent=pc.toFixed(1)+'%';
+      epu.className='arv'+(pu>0?' g':'');ean.className='arv'+(an>0?' g':'');epc.className='arv'+(pc>0?' g':'');
+      ah[id]=an>0?an:0;
+    }else{epu.textContent=ean.textContent=epc.textContent='—';epu.className=ean.className=epc.className='arv m';ah[id]=0;}
+  }
+  var t=0;ITEMS.forEach(i=>t+=ah[i.id]);
+  document.getElementById('kt').textContent=t>0?fmt(t):'—';
+  document.getElementById('ksub').textContent=t>0?'Proyección anual consolidada':'Completar datos por ítem';
+}
+function recalcAll(){ITEMS.forEach(i=>calcI(i.id));}
+
+// ── RENDER HELPERS ──
+function tecViewHtml(id,tec){
+  return TEC_FIELDS.map(function(f){
+    var v=tec[f.key]||'—';
+    var e=v==='A completar'||v==='A definir'||v==='A confirmar'||v==='—';
+    if(f.multiline) return`<div class="sr"><span class="srk">${f.label}</span><span class="srv nota${e?' e':''}">${v}</span></div>`;
+    return`<div class="sr"><span class="srk">${f.label}</span><span class="srv${e?' e':''}">${v}</span></div>`;
+  }).join('');
+}
+
+function tecEditHtml(id,tec){
+  return TEC_FIELDS.map(function(f){
+    var v=tec[f.key]||'';
+    if(f.multiline) return`<div class="ef"><span class="efk">${f.label}</span><textarea class="efv nota-input" id="${id}_tec_${f.key}">${v}</textarea></div>`;
+    return`<div class="ef"><span class="efk">${f.label}</span><input class="efv" type="text" id="${id}_tec_${f.key}" value="${v.replace(/"/g,'&quot;')}"></div>`;
+  }).join('');
+}
+
+function provRows(p){
+  return Object.entries(p).map(([k,v])=>{
+    var e=v.startsWith('En')||v.startsWith('A');
+    return`<div class="sr"><span class="srk">${k}</span><span class="srv${e?' e':''}">${v}</span></div>`;
+  }).join('');
+}
+function comRows(c){
+  return Object.entries(c).map(([k,v])=>{
+    var e=v==='A confirmar'||v==='A definir';
+    return`<div class="sr"><span class="srk">${k}</span><span class="srv${e?' e':''}">${v}</span></div>`;
+  }).join('');
+}
+
+// ── RENDER ──
+function render(){
+  var g=document.getElementById('ig2');g.innerHTML='';
+  ITEMS.forEach(function(item){
+    var div=document.createElement('div');
+    div.className='ic';div.setAttribute('data-fase',item.fase);
+    var fsHtml=item.fases.map((f,i)=>`<div class="fs ${f===1?'done':f===2?'active':'pend'}">${FN[i]}</div>`).join('');
+    var refsHtml=item.refs.length?'<div class="refs">'+item.refs.map(r=>`<span class="rc">${r}</span>`).join('')+'</div>':'';
+    var impHtml=item.imp?`<div class="imp"><div class="nsl r">Importante</div><div><div class="nst">${item.imp}</div><div class="nso">${item.impo}</div></div></div>`:'';
+    var cA=canEdit('actual'),cL=canEdit('landed'),cV=canEdit('vol'),cF=canEdit('fecha'),cP=canEdit('prov');
+    var pnote=isBamboo()?'✦ Bamboo: edita todos los campos del análisis':'✦ Ombú: podés editar costo actual, proveedor origen y volumen anual';
+    var editTecBtn=isBamboo()?`<button class="ebtn" id="etbtn_${item.id}" onclick="event.stopPropagation();toggleEditTec('${item.id}')"><i class="ti ti-pencil"></i> Editar</button>`:'';
+    var editItemBtn=isBamboo()?`<button class="edit-item-btn" onclick="event.stopPropagation();openModal('${item.id}')"><i class="ti ti-settings" style="font-size:12px"></i> Editar ítem</button>`:'';
+
+    div.innerHTML=`
+      <div class="ich" onclick="tog(this.parentElement)">
+        <div class="in" style="flex:1;min-width:130px">${item.nombre}</div>
+        <div class="fsw">${fsHtml}</div>
+        <div class="itags"><span class="tag tm">${item.tec.tipo||'—'}</span></div>
+        ${editItemBtn}<i class="ti ti-chevron-down ichev"></i>
+      </div>
+      <div class="icb">
+        <div class="nstep"><div class="nsl w">Próximo paso</div><div><div class="nst">${item.ns}</div><div class="nso">${item.nso}</div></div></div>
+        ${impHtml}
+        <div class="secs">
+          <div class="sec">
+            <div class="stit"><i class="ti ti-file-description"></i>Ficha técnica${editTecBtn}</div>
+            <div id="tec_view_${item.id}">${tecViewHtml(item.id,item.tec)}${refsHtml}</div>
+            <div id="tec_edit_${item.id}" style="display:none">${tecEditHtml(item.id,item.tec)}${refsHtml}</div>
+          </div>
+          <div class="sec">
+            <div class="stit"><i class="ti ti-building-factory-2"></i>Proveedor</div>
+            ${provRows(item.prov)}
+            <div style="margin-top:10px">
+              <div style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono);margin-bottom:6px">PAGOS</div>
+              <div id="pagos_wrap_${item.id}"></div>
+            </div>
+          </div>
+          <div class="sec">
+            <div class="stit"><i class="ti ti-ship"></i>Comercial</div>
+            ${comRows(item.com)}
+          </div>
+          <div class="sec">
+            <div class="stit"><i class="ti ti-users"></i>Equipo · Ombú</div>
+            <div class="tg">
+              <div class="tc"><div class="tr2">Sponsor</div><input class="ti2" id="${item.id}_sp" placeholder="—" ${canEdit('team')?'':'readonly'}></div>
+              <div class="tc"><div class="tr2">Líder técnico</div><input class="ti2" id="${item.id}_lt" placeholder="—" ${canEdit('team')?'':'readonly'}></div>
+              <div class="tc"><div class="tr2">Líder comercial</div><input class="ti2" id="${item.id}_lc" placeholder="—" ${canEdit('team')?'':'readonly'}></div>
+            </div>
+          </div>
+        </div>
+        <div class="perf">
+          <div class="ph2">
+            <div class="ptit"><i class="ti ti-chart-arrows-vertical"></i>Análisis de performance</div>
+            <div class="pdw"><i class="ti ti-calendar"></i><span>Fecha del análisis</span>
+              <input type="date" id="${item.id}_fe" value="${item.fecha||''}" ${cF?'':'readonly'}>
+            </div>
+          </div>
+          <div class="pi">
+            <div class="aw"><span class="al">Costo actual (USD/${item.pu})<span class="${cA?'eh':''}">${cA?'✎':''}</span></span><input class="ai ${cA?'of':'bf'}" type="number" id="${item.id}_ac" placeholder="—" ${cA?'':'readonly'} oninput="calcI('${item.id}')"></div>
+            <div class="aw"><span class="al">Proveedor / origen actual<span class="${cP?'eh':''}">${cP?'✎':''}</span></span><input class="ai ${cP?'of':'bf'}" type="text" id="${item.id}_pr" placeholder="—" ${cP?'':'readonly'}></div>
+            <div class="aw"><span class="al">Costo logrado (USD/${item.pu})<span class="${cL?'eh':''}">${cL?'✎':''}</span></span><input class="ai ${cL?'bf':''}" type="number" id="${item.id}_la" placeholder="—" ${cL?'':'readonly'} oninput="calcI('${item.id}')"></div>
+            <div class="aw"><span class="al">Volumen anual (${item.pu}s/año)<span class="${cV?'eh':''}">${cV?'✎':''}</span></span><input class="ai ${cV?'of':'bf'}" type="number" id="${item.id}_vo" value="${item.vol||''}" ${cV?'':'readonly'} oninput="calcI('${item.id}')"></div>
+          </div>
+          <div class="pr2">
+            <div class="ar"><div class="arl">Ahorro por ${item.pu}</div><div class="arv m" id="${item.id}_rpu">—</div></div>
+            <div class="ar"><div class="arl">Ahorro anual estimado</div><div class="arv m" id="${item.id}_ran">—</div></div>
+            <div class="ar"><div class="arl">Reducción de costo</div><div class="arv m" id="${item.id}_rpc">—</div></div>
+          </div>
+          <div class="pnote">${pnote}</div>
+          <button class="sbtn" id="sb_${item.id}" onclick="saveI('${item.id}')"><i class="ti ti-device-floppy"></i> Guardar cambios</button>
+        </div>
+      </div>`;
+    g.appendChild(div);
+  });
+
+  // render pagos after DOM insertion
+  ITEMS.forEach(function(item){ renderPagos(item.id); });
+}
+
+function tog(c){c.classList.toggle('open');}
+function fil(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.ic').forEach(c=>{var f=c.getAttribute('data-fase');c.style.display=(t==='todos'||t===f)?'':'none';});}
+
+
+// ═══════════════════════════════════════════
+//  EDIT MODAL
+// ═══════════════════════════════════════════
+var FASE_LABELS=['Origen comercial','Definición req.','Sourcing','Validación técnica','RFQ y cotización','Evaluación','Implementación','Logística','Estabilización'];
+var currentModalId=null;
+
+function openModal(id){
+  if(!isBamboo()) return;
+  currentModalId=id;
+  var item=ITEMS.find(i=>i.id===id);
+  if(!item) return;
+
+  document.getElementById('modal-item-name').textContent='Editar · '+item.nombre;
+
+  // Fase selector
+  var fsel=document.getElementById('modal-fase-sel');
+  fsel.innerHTML='';
+  // determine current active fase index
+  var activeIdx=item.fases.indexOf(2);
+  FASE_LABELS.forEach(function(label,i){
+    var btn=document.createElement('button');
+    btn.className='fase-opt'+(i<activeIdx?' sel-done':i===activeIdx?' sel-active':'');
+    btn.textContent='F'+i+' · '+label;
+    btn.onclick=function(){
+      // click sets this as active, all before as done, all after as pend
+      document.querySelectorAll('.fase-opt').forEach(function(b,j){
+        b.className='fase-opt'+(j<i?' sel-done':j===i?' sel-active':'');
+      });
+    };
+    fsel.appendChild(btn);
+  });
+
+  // Próximo paso
+  document.getElementById('modal-ns').value=item.ns||'';
+  document.getElementById('modal-nso').value=item.nso||'';
+
+  // Importante
+  document.getElementById('modal-imp').value=item.imp||'';
+  document.getElementById('modal-impo').value=item.impo||'';
+
+  // Proveedor
+  document.getElementById('modal-prov-nombre').value=item.prov.Nombre||'';
+  document.getElementById('modal-prov-region').value=item.prov.Región||'';
+  document.getElementById('modal-prov-incoterm').value=item.prov.Incoterm||'';
+  document.getElementById('modal-prov-invoice').value=item.prov.Invoice||'';
+
+  // Comercial
+  document.getElementById('modal-com-lead').value=item.com.Lead||'';
+  document.getElementById('modal-com-pago').value=item.com.Pago||'';
+  document.getElementById('modal-com-moq').value=item.com.MOQ||'';
+  document.getElementById('modal-com-cont').value=item.com.Contenedor||'';
+  document.getElementById('modal-com-puerto').value=item.com.Puerto||'';
+  document.getElementById('modal-com-nota').value=item.com.Nota||item.com['Arribo est.']||item.com['OC Ombú']||'';
+
+  document.getElementById('edit-modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('edit-modal').classList.add('hidden');
+  document.body.style.overflow='';
+  currentModalId=null;
+}
+
+function closeModalOutside(e){
+  if(e.target===document.getElementById('edit-modal')) closeModal();
+}
+
+async function saveModal(){
+  if(!currentModalId) return;
+  var item=ITEMS.find(i=>i.id===currentModalId);
+  if(!item) return;
+
+  // Read fase from selector
+  var opts=document.querySelectorAll('.fase-opt');
+  var activeIdx=-1;
+  opts.forEach(function(b,i){ if(b.classList.contains('sel-active')) activeIdx=i; });
+  if(activeIdx>=0){
+    item.fases=item.fases.map(function(_,i){ return i<activeIdx?1:i===activeIdx?2:0; });
+    // update fase category
+    var faseMap={6:'implementacion',7:'transito',8:'entregado',3:'tecnica',4:'cotizacion',5:'evaluacion'};
+    item.fase=faseMap[activeIdx]||'sourcing';
+  }
+
+  // Próximo paso
+  item.ns=document.getElementById('modal-ns').value;
+  item.nso=document.getElementById('modal-nso').value;
+
+  // Importante
+  item.imp=document.getElementById('modal-imp').value;
+  item.impo=document.getElementById('modal-impo').value;
+
+  // Proveedor
+  item.prov.Nombre=document.getElementById('modal-prov-nombre').value;
+  item.prov.Región=document.getElementById('modal-prov-region').value;
+  item.prov.Incoterm=document.getElementById('modal-prov-incoterm').value;
+  item.prov.Invoice=document.getElementById('modal-prov-invoice').value;
+
+  // Comercial
+  item.com.Lead=document.getElementById('modal-com-lead').value;
+  item.com.Pago=document.getElementById('modal-com-pago').value;
+  item.com.MOQ=document.getElementById('modal-com-moq').value;
+  item.com.Contenedor=document.getElementById('modal-com-cont').value;
+  item.com.Puerto=document.getElementById('modal-com-puerto').value;
+  var notaVal=document.getElementById('modal-com-nota').value;
+  if(notaVal) item.com.Nota=notaVal;
+
+  // Save to storage
+  var d=collectData(currentModalId);
+  d.data_version=DATA_VERSION;
+  d.item_ns=item.ns; d.item_nso=item.nso;
+  d.item_imp=item.imp; d.item_impo=item.impo;
+  d.item_fases=item.fases; d.item_fase=item.fase;
+  d.item_prov=item.prov; d.item_com=item.com;
+  await save2(currentModalId, d);
+
+  // Re-render
+  var btn=document.getElementById('modal-save-btn');
+  btn.classList.add('saved'); btn.innerHTML='<i class="ti ti-check"></i> Guardado';
+  setTimeout(function(){
+    btn.classList.remove('saved'); btn.innerHTML='<i class="ti ti-device-floppy"></i> Guardar cambios';
+    closeModal();
+    // Re-render items
+    render();
+    loadAll();
+  },1000);
+}
+
+// Extend applyData to restore modal-saved fields
+var DATA_VERSION='v20260528';
+var _origApply=applyData;
+applyData=function(id,d){
+  _origApply(id,d);
+  var item=ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  // Only restore editorial fields if saved with current version
+  if(d.item_fases && d.data_version===DATA_VERSION) item.fases=d.item_fases;
+  if(d.item_fase  && d.data_version===DATA_VERSION) item.fase=d.item_fase;
+  if(d.item_prov  && d.data_version===DATA_VERSION) item.prov=d.item_prov;
+  if(d.item_com   && d.data_version===DATA_VERSION) item.com=d.item_com;
+  // ns/nso/imp/impo: only restore if version matches (prevents stale next steps)
+  if(d.item_ns    && d.data_version===DATA_VERSION) item.ns=d.item_ns;
+  if(d.item_nso   && d.data_version===DATA_VERSION) item.nso=d.item_nso;
+  if(d.item_imp   && d.data_version===DATA_VERSION) item.imp=d.item_imp;
+  if(d.item_impo  && d.data_version===DATA_VERSION) item.impo=d.item_impo;
+};
+
+
+// Auto-calculate bloqueos badge
+function updateBloqBadge(){
+  var reds=document.querySelectorAll('.bqd.r').length;
+  var yellows=document.querySelectorAll('.bqd.y').length;
+  var badge=document.getElementById('bloq-badge');
+  if(!badge) return;
+  var txt='';
+  if(reds>0) txt+=reds+' crítico'+(reds>1?'s':'');
+  if(reds>0&&yellows>0) txt+=' · ';
+  if(yellows>0) txt+=yellows+' atención';
+  badge.textContent=txt||'Sin bloqueos';
+  badge.className=reds>0?'tag td':'tag tw';
+}
+
+// call on login
+var _origRender=render;
+render=function(){_origRender();updateBloqBadge();updateCounts();};
+
+// Auto-update item counts in tabs and KPI after render
+function updateCounts(){
+  var total=ITEMS.length;
+  // KPI
+  var kpiEl=document.querySelector('.kv');
+  if(kpiEl && kpiEl.nextElementSibling && kpiEl.nextElementSibling.textContent.includes('seguimiento')){
+    kpiEl.textContent=total;
+  }
+  // Tabs
+  var faseCounts={};
+  ITEMS.forEach(function(item){ faseCounts[item.fase]=(faseCounts[item.fase]||0)+1; });
+  var tabMap={
+    'todos':'Todos',
+    'transito':'En tránsito',
+    'cotizacion':'Cotización',
+    'tecnica':'Val. técnica',
+    'evaluacion':'Evaluación',
+    'implementacion':'Implementación',
+    'sourcing':'Sourcing',
+    'entregado':'Entregado'
+  };
+  document.querySelectorAll('.tab').forEach(function(btn){
+    var onclick=btn.getAttribute('onclick')||'';
+    var m=onclick.match(/fil\('(\w+)'/);
+    if(!m) return;
+    var fase=m[1];
+    var label=tabMap[fase]||fase;
+    var count=fase==='todos'?total:(faseCounts[fase]||0);
+    btn.textContent=label+' ('+count+')';
+  });
+}
+
 </script>
 </body>
 </html>
