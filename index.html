@@ -1,620 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proyecto CREAS — Propuesta de Gestión</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tablero CREAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --stone:    #f5f2ed;
-    --stone-2:  #ede8e0;
-    --stone-3:  #d9d2c5;
-    --moss:     #3d5a3e;
-    --moss-2:   #2e4430;
-    --moss-light: #edf2ed;
-    --bark:     #6b4f3a;
-    --bark-light: #f5ede6;
-    --amber:    #c47c2b;
-    --amber-light: #fdf3e3;
-    --red-soft: #b94040;
-    --red-light: #fdf0f0;
-    --text-primary: #1e1e1a;
-    --text-secondary: #5a5649;
-    --text-muted: #8a8278;
-    --border: rgba(90,86,73,0.15);
-    --border-mid: rgba(90,86,73,0.28);
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--sans);
-    background: var(--stone);
-    color: var(--text-primary);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(245,242,237,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px;
-  }
-  .nav-brand { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--moss); letter-spacing: .02em; }
-  .nav-links { display: flex; gap: 1.5rem; }
-  .nav-links a { font-size: .8rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; letter-spacing: .04em; text-transform: uppercase; transition: color .2s; }
-  .nav-links a:hover { color: var(--moss); }
-
-  /* HERO */
-  .hero {
-    padding: 6rem 2rem 4rem;
-    max-width: 860px; margin: 0 auto;
-    position: relative;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: .7rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--moss); background: var(--moss-light);
-    padding: 5px 12px; border-radius: 20px; margin-bottom: 1.5rem;
-  }
-  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--moss); border-radius: 50%; }
-  h1 {
-    font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 4.5rem);
-    font-weight: 600; line-height: 1.1; color: var(--moss-2);
-    margin-bottom: 1.25rem;
-  }
-  h1 em { font-style: italic; color: var(--bark); }
-  .hero-sub {
-    font-size: 1.05rem; color: var(--text-secondary); font-weight: 300;
-    max-width: 540px; margin-bottom: 2rem; line-height: 1.7;
-  }
-  .hero-meta {
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  }
-  .meta-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: .8rem; color: var(--text-muted);
-  }
-  .meta-dot { width: 4px; height: 4px; background: var(--stone-3); border-radius: 50%; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: .7rem; font-weight: 500; padding: 4px 10px; border-radius: 20px;
-  }
-  .pill-green { background: var(--moss-light); color: var(--moss); }
-  .pill-amber { background: var(--amber-light); color: var(--amber); }
-
-  /* SECTION */
-  section { padding: 4rem 2rem; max-width: 860px; margin: 0 auto; }
-  .section-rule { border: none; border-top: 1px solid var(--border); margin: 0 2rem; }
-  .section-eyebrow {
-    font-size: .7rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--moss); margin-bottom: .75rem;
-  }
-  h2 {
-    font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 600; color: var(--moss-2); margin-bottom: .75rem; line-height: 1.2;
-  }
-  .section-intro { font-size: .95rem; color: var(--text-secondary); max-width: 580px; margin-bottom: 2rem; line-height: 1.7; }
-
-  /* PHASES */
-  .phase-tabs { display: flex; gap: 0; border: 1px solid var(--border-mid); border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem; }
-  .phase-tab {
-    flex: 1; padding: .7rem .5rem; text-align: center; cursor: pointer;
-    background: white; border: none; border-right: 1px solid var(--border);
-    font-family: var(--sans); font-size: .75rem; font-weight: 400; color: var(--text-muted);
-    transition: all .2s; line-height: 1.3;
-  }
-  .phase-tab:last-child { border-right: none; }
-  .phase-tab .tab-num { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
-  .phase-tab .tab-name { font-weight: 500; color: var(--text-secondary); }
-  .phase-tab .tab-time { font-size: .7rem; color: var(--text-muted); margin-top: 2px; }
-  .phase-tab.active, .phase-tab:hover { background: var(--moss-light); }
-  .phase-tab.active { background: var(--moss); }
-  .phase-tab.active .tab-num, .phase-tab.active .tab-name, .phase-tab.active .tab-time { color: white; }
-
-  .phase-panel {
-    border: 1px solid var(--border-mid); border-radius: 10px;
-    background: white; padding: 1.5rem; animation: fadein .3s ease;
-  }
-  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-  .panel-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--moss-2); margin-bottom: .5rem; }
-  .panel-desc { font-size: .9rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem; }
-  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip {
-    font-size: .75rem; padding: 4px 10px; border-radius: 20px;
-    border: 1px solid var(--border-mid); color: var(--text-secondary); background: var(--stone);
-  }
-
-  /* CATEGORIES GRID */
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-  .cat-card {
-    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
-    background: white; transition: border-color .2s, transform .2s;
-  }
-  .cat-card:hover { border-color: var(--moss); transform: translateY(-2px); }
-  .cat-icon-wrap { width: 32px; height: 32px; border-radius: 8px; background: var(--moss-light); display: flex; align-items: center; justify-content: center; margin-bottom: .6rem; }
-  .cat-icon-wrap svg { width: 16px; height: 16px; stroke: var(--moss); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .cat-name { font-size: .85rem; font-weight: 500; color: var(--text-primary); margin-bottom: .3rem; }
-  .cat-desc { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
-
-  /* CHALLENGES */
-  .challenge-list { display: flex; flex-direction: column; gap: 10px; }
-  .challenge {
-    display: flex; gap: 12px; padding: 1rem 1.25rem;
-    border: 1px solid var(--border); border-radius: 10px; background: white;
-    border-left-width: 3px;
-  }
-  .challenge.bloq { border-left-color: var(--red-soft); }
-  .challenge.key  { border-left-color: var(--amber); }
-  .ch-marker { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-  .ch-marker.bloq { background: var(--red-soft); }
-  .ch-marker.key  { background: var(--amber); }
-  .ch-title { font-size: .88rem; font-weight: 500; color: var(--text-primary); margin-bottom: .25rem; }
-  .ch-desc  { font-size: .8rem; color: var(--text-secondary); line-height: 1.6; }
-  .ch-badge {
-    display: inline-block; font-size: .65rem; font-weight: 500; text-transform: uppercase;
-    letter-spacing: .06em; padding: 2px 7px; border-radius: 8px; margin-left: 8px; vertical-align: middle;
-  }
-  .badge-bloq { background: var(--red-light); color: var(--red-soft); }
-  .badge-key  { background: var(--amber-light); color: var(--amber); }
-
-  /* TEAM */
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 1rem; }
-  .member {
-    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; background: white;
-  }
-  .member.me { border-color: var(--moss); background: var(--moss-light); }
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: .8rem; font-weight: 500; margin-bottom: .6rem;
-  }
-  .av-moss { background: var(--moss); color: white; }
-  .av-bark { background: var(--bark-light); color: var(--bark); }
-  .av-gray { background: var(--stone-2); color: var(--text-secondary); }
-  .member-name { font-size: .88rem; font-weight: 500; color: var(--text-primary); margin-bottom: .15rem; }
-  .member-role { font-size: .75rem; color: var(--text-muted); margin-bottom: .5rem; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag { font-size: .68rem; padding: 2px 7px; border-radius: 8px; background: var(--stone-2); color: var(--text-secondary); }
-  .tag.me { background: rgba(61,90,62,.15); color: var(--moss); }
-  .to-hire {
-    font-size: .8rem; color: var(--text-secondary); background: var(--stone-2);
-    border-radius: 8px; padding: .6rem 1rem; border: 1px dashed var(--border-mid);
-  }
-  .to-hire strong { color: var(--text-primary); }
-
-  /* BUDGET */
-  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
-  .metric {
-    background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
-  }
-  .metric-label { font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: .3rem; }
-  .metric-val { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--moss-2); line-height: 1; }
-  .metric-sub { font-size: .75rem; color: var(--text-muted); margin-top: .3rem; }
-
-  .budget-table { width: 100%; border-collapse: collapse; }
-  .budget-table th {
-    font-size: .7rem; font-weight: 500; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--text-muted); text-align: left; padding: .5rem .75rem;
-    border-bottom: 1px solid var(--border-mid);
-  }
-  .budget-table th:last-child { text-align: right; }
-  .budget-table td {
-    padding: .6rem .75rem; font-size: .82rem; color: var(--text-primary);
-    border-bottom: 1px solid var(--border); vertical-align: middle;
-  }
-  .budget-table tr:last-child td { border-bottom: none; }
-  .budget-table tr:nth-child(even) td { background: var(--stone); }
-  .status-badge {
-    font-size: .68rem; font-weight: 500; padding: 2px 8px; border-radius: 10px;
-  }
-  .s-ok   { background: var(--moss-light); color: var(--moss); }
-  .s-warn { background: var(--amber-light); color: var(--amber); }
-  .s-none { background: var(--stone-2); color: var(--text-muted); }
-  .td-right { text-align: right; font-weight: 500; color: var(--text-secondary); }
-
-  /* CTA */
-  .cta-block {
-    border: 1px solid var(--border-mid); border-radius: 12px; padding: 2rem;
-    background: white; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
-  }
-  .cta-text { font-family: var(--serif); font-size: 1.2rem; color: var(--moss-2); max-width: 480px; line-height: 1.5; }
-  .cta-btn {
-    background: var(--moss); color: white; border: none; padding: .75rem 1.75rem;
-    border-radius: 8px; font-family: var(--sans); font-size: .85rem; font-weight: 500;
-    cursor: pointer; transition: background .2s; white-space: nowrap; text-decoration: none; display: inline-block;
-  }
-  .cta-btn:hover { background: var(--moss-2); }
-
-  /* LEGEND */
-  .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
-  .leg { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--text-muted); }
-  .leg-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border); padding: 2rem; text-align: center;
-    font-size: .78rem; color: var(--text-muted); max-width: 860px; margin: 0 auto;
-  }
-
-  @media (max-width: 600px) {
-    .phase-tabs { flex-wrap: wrap; }
-    .phase-tab { flex: 1 1 45%; border: 1px solid var(--border); }
-    .metrics-row { grid-template-columns: 1fr 1fr; }
-    .nav-links { display: none; }
-    h1 { font-size: 2.2rem; }
-  }
+:root{
+  --paper:#ECEDE6; --surface:#F6F5EF; --ink:#2B2A23; --olive:#5F6B45;
+  --clay:#A9552F; --muted:#8A8778; --border:#D9D8CC; --olive-soft:#E7E9DB;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Inter,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 20px 80px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.brand{font-family:Fraunces,serif;font-weight:900;font-size:34px;letter-spacing:-.02em;line-height:1}
+.brand small{display:block;font-family:Inter;font-weight:500;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-top:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:14px;
+  padding:11px 18px;border-radius:10px}
+.btn-primary{background:var(--olive);color:#fff}
+.btn-primary:hover{background:#525c3b}
+.btn-ghost{background:transparent;color:var(--olive);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--olive)}
+.updated{font-size:12px;color:var(--muted);margin:2px 0 22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;background:var(--border);
+  border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.det{background:var(--surface);padding:16px 18px}
+.det dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.det dd{margin:0;font-size:15px;font-weight:500}
+.det.phase{background:var(--olive-soft)}
+.block-item{display:flex;gap:14px;align-items:baseline;padding:12px 0;border-top:1px solid var(--border)}
+.block-item:first-of-type{border-top:none}
+.dot{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:var(--clay);margin-top:7px}
+.block-body{flex:1}
+.block-title{font-weight:600}
+.block-meta{font-size:13px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
+  background:#F1D9CE;color:var(--clay);margin-left:8px;vertical-align:middle}
+.empty{color:var(--muted);font-style:italic;padding:6px 0}
+.next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.next{border-left:3px solid var(--olive);padding:2px 0 2px 14px}
+.next .cat{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--olive)}
+.next .task{font-size:14px;font-weight:500;margin-top:3px}
+.next .meta{font-size:12px;color:var(--muted);margin-top:2px}
+.cat-block{margin-bottom:6px}
+.cat-name{font-family:Fraunces,serif;font-weight:600;font-size:17px;margin:18px 0 4px}
+.cat-block:first-child .cat-name{margin-top:0}
+.line{position:relative;padding-left:22px}
+.line::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.task-row{position:relative;padding:9px 0;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.task-row::before{content:"";position:absolute;left:-21px;top:14px;width:11px;height:11px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--muted)}
+.task-row.done::before{background:var(--olive);border-color:var(--olive)}
+.task-row.late::before{background:var(--clay);border-color:var(--clay)}
+.t-main{flex:1}
+.t-name{font-size:14px;font-weight:500}
+.task-row.done .t-name{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--border)}
+.t-resp{font-size:12px;color:var(--muted);margin-top:1px}
+.t-date{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.status{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.status.done{background:var(--olive-soft);color:var(--olive)}
+.status.pend{background:#EDEBE1;color:var(--muted)}
+.status.late{background:#F1D9CE;color:var(--clay)}
+.eco table{width:100%;border-collapse:collapse;font-size:14px}
+.eco th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;padding:0 0 8px;border-bottom:1px solid var(--border)}
+.eco td{padding:10px 0;border-bottom:1px solid var(--border)}
+.eco td.num{text-align:right;font-variant-numeric:tabular-nums}
+.eco tfoot td{font-weight:700;border-bottom:none;padding-top:14px}
+.chip{font-size:12px;padding:2px 9px;border-radius:20px;background:var(--olive-soft);color:var(--olive)}
+@media(max-width:560px){.brand{font-size:28px}.t-date{display:none}}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<nav>
-  <div class="nav-brand">CREAS</div>
-  <div class="nav-links">
-    <a href="#fases">Fases</a>
-    <a href="#categorias">Categorías</a>
-    <a href="#desafios">Desafíos</a>
-    <a href="#equipo">Equipo</a>
-    <a href="#presupuesto">Presupuesto</a>
+  <div class="top">
+    <div class="brand">CREAS<small>Tablero del proyecto · Fase 1</small></div>
+    <div class="actions">
+      <a class="btn btn-ghost" id="editBtn" href="#" target="_blank" rel="noopener" style="display:none">✏️ Editar datos</a>
+      <a class="btn btn-primary" id="driveBtn" href="#" target="_blank" rel="noopener">📁 Abrir Drive</a>
+    </div>
   </div>
-</nav>
+  <div class="updated" id="updated"></div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-tag">Propuesta de gestión · Mayo 2026</div>
-  <h1>Cómo encaramos<br><em>este proyecto</em></h1>
-  <p class="hero-sub">
-    Un loteo residencial de 26 parcelas en San Javier, Córdoba. 
-    Integrado al paisaje, con identidad propia y una comunidad que elige vivir de otra manera.
-  </p>
-  <div class="hero-meta">
-    <div class="meta-item">Juan Ignacio Sorrón · Gestor de proyecto</div>
-    <div class="meta-dot"></div>
-    <span class="pill pill-green">Barrio en alcance</span>
-    <span class="pill pill-amber">Centro CREAS · fase posterior</span>
-  </div>
+  <dl class="details" id="details"></dl>
+
+  <section class="card">
+    <p class="eyebrow">Bloqueos urgentes</p>
+    <div id="blockers"></div>
+  </section>
+
+  <section class="card">
+    <p class="eyebrow">Próximo paso por categoría</p>
+    <div class="next-grid" id="nextSteps"></div>
+  </section>
+
+  <section class="card">
+    <p class="eyebrow">Cronograma por categoría</p>
+    <div id="timeline"></div>
+  </section>
+
+  <section class="card eco">
+    <p class="eyebrow">Económico · gastos realizados</p>
+    <table>
+      <thead><tr><th>Fecha</th><th>Concepto</th><th>Categoría / C. de costo</th><th style="text-align:right">Monto</th></tr></thead>
+      <tbody id="expBody"></tbody>
+      <tfoot><tr><td colspan="3">Total gastado</td><td class="num" id="expTotal"></td></tr></tfoot>
+    </table>
+  </section>
+
 </div>
 
-<hr class="section-rule">
-
-<!-- FASES -->
-<section id="fases">
-  <div class="section-eyebrow">Fases del proyecto</div>
-  <h2>Cuatro etapas, un camino claro</h2>
-  <p class="section-intro">El proyecto avanza en fases secuenciales. Cada una tiene entregables concretos antes de pasar a la siguiente — sin quemar pasos.</p>
-
-  <div class="phase-tabs" role="tablist">
-    <button class="phase-tab active" onclick="showPhase(0)" role="tab">
-      <div class="tab-num">Fase 1</div>
-      <div class="tab-name">Pre-proyecto</div>
-      <div class="tab-time">2–3 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(1)" role="tab">
-      <div class="tab-num">Fase 2</div>
-      <div class="tab-name">Planeamiento</div>
-      <div class="tab-time">3–5 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(2)" role="tab">
-      <div class="tab-num">Fase 3</div>
-      <div class="tab-name">Ejecución</div>
-      <div class="tab-time">18–24 meses</div>
-    </button>
-    <button class="phase-tab" onclick="showPhase(3)" role="tab">
-      <div class="tab-num">Fase 4</div>
-      <div class="tab-name">Cierre</div>
-      <div class="tab-time">2–4 meses</div>
-    </button>
-  </div>
-
-  <div class="phase-panel" id="phase-panel">
-    <div class="panel-title" id="pp-title"></div>
-    <div class="panel-desc" id="pp-desc"></div>
-    <div class="chip-row" id="pp-chips"></div>
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- CATEGORÍAS -->
-<section id="categorias">
-  <div class="section-eyebrow">Categorías de trabajo</div>
-  <h2>Ocho frentes en paralelo</h2>
-  <p class="section-intro">Cada categoría tiene sus propios actores, tiempos y dependencias. Mi rol es mantener todos en movimiento sin que ninguno bloquee a los demás.</p>
-
-  <div class="cat-grid">
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>
-      </div>
-      <div class="cat-name">Tierra y legal</div>
-      <div class="cat-desc">Regularización posesoria, usucapión, acuerdo con Bringas, agrimensura y subdivisión.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="13" rx="2"/><path d="M8 9V5a4 4 0 018 0v4"/></svg>
-      </div>
-      <div class="cat-name">Municipalidad</div>
-      <div class="cat-desc">Factibilidad de parcelamiento, normativa urbanística, permisos y habilitaciones.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-      </div>
-      <div class="cat-name">Infraestructura</div>
-      <div class="cat-desc">Agua, electricidad (CEMDO), caminos internos y externos, conectividad y saneamiento.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div class="cat-name">Equipo</div>
-      <div class="cat-desc">Conformación y coordinación del equipo técnico, legal, comercial y operativo en cada etapa.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
-      <div class="cat-name">Identidad y producto</div>
-      <div class="cat-desc">Perfil del comprador, reglamento, masterplan, diferenciación frente a otros loteos de Traslasierra.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
-      </div>
-      <div class="cat-name">Comercial y marketing</div>
-      <div class="cat-desc">Validación de precio, branding, materiales de venta, canales y estructura comercial.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      </div>
-      <div class="cat-name">Presupuesto y finanzas</div>
-      <div class="cat-desc">Estimación de costos por rubro, estructura de financiamiento y modelo económico del proyecto.</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div class="cat-name">Centro CREAS</div>
-      <div class="cat-desc">Previsto desde el inicio. Definición, factibilidad y modelo económico propio en Fase 4.</div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- DESAFÍOS -->
-<section id="desafios">
-  <div class="section-eyebrow">Desafíos críticos</div>
-  <h2>Lo que puede frenar el proyecto</h2>
-  <p class="section-intro">No hay plan honesto sin identificar los obstáculos reales. Estos son los puntos que hay que resolver antes de que bloqueen el avance.</p>
-
-  <div class="challenge-list">
-    <div class="challenge bloq">
-      <div class="ch-marker bloq"></div>
-      <div>
-        <div class="ch-title">Situación legal de la tierra <span class="ch-badge badge-bloq">Bloqueante</span></div>
-        <div class="ch-desc">La tierra es de José Bringas por derecho posesorio — sin escritura. Sin título transferible no hay lotes vendibles. Es el primer problema a resolver, antes que todo lo demás.</div>
-      </div>
-    </div>
-    <div class="challenge bloq">
-      <div class="ch-marker bloq"></div>
-      <div>
-        <div class="ch-title">Factibilidad municipal <span class="ch-badge badge-bloq">Bloqueante</span></div>
-        <div class="ch-desc">No sabemos todavía si el municipio de San Javier permite el parcelamiento tal como está planteado. Un "no" o condiciones imprevistas pueden cambiar el layout, los costos y los plazos.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Agua: factibilidad geológica <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">Ya existe un presupuesto de prospección hidrogeológica (HidroMonte, Geól. Mario Aguirre). Sin confirmar que hay agua en el predio, la viabilidad del barrio está en el aire.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Electricidad: distancia y costo <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">El proveedor es la Cooperativa CEMDO. La distancia al punto de conexión define si el costo de obra es manejable. Existen mecanismos de financiamiento bajo la Ley Provincial 11.062.</div>
-      </div>
-    </div>
-    <div class="challenge key">
-      <div class="ch-marker key"></div>
-      <div>
-        <div class="ch-title">Validación del precio de venta <span class="ch-badge badge-key">Clave</span></div>
-        <div class="ch-desc">El USD 14/m² es un punto de partida, no un dato validado. Antes del lanzamiento hay que confirmar que cubre los costos de infraestructura y deja margen real para todos.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="legend">
-    <div class="leg"><div class="leg-dot" style="background:var(--red-soft)"></div>Bloqueante — resolver antes de avanzar</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--amber)"></div>Clave — alto impacto en viabilidad</div>
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- EQUIPO -->
-<section id="equipo">
-  <div class="section-eyebrow">Equipo base</div>
-  <h2>Quién hace qué</h2>
-  <p class="section-intro">El equipo fundador está conformado. Los roles técnicos y comerciales se incorporan a medida que el proyecto avanza de fase.</p>
-
-  <div class="team-grid">
-    <div class="member me">
-      <div class="avatar av-moss">JI</div>
-      <div class="member-name">Juan Ignacio Sorrón</div>
-      <div class="member-role">Gestor del proyecto</div>
-      <div class="tag-row">
-        <span class="tag me">Estructuración</span>
-        <span class="tag me">Coordinación</span>
-        <span class="tag me">Hoja de ruta</span>
-        <span class="tag me">PM</span>
-      </div>
-    </div>
-    <div class="member">
-      <div class="avatar av-bark">GU</div>
-      <div class="member-name">Guillermo</div>
-      <div class="member-role">Visión y articulación</div>
-      <div class="tag-row">
-        <span class="tag">Visión</span>
-        <span class="tag">Vínculo local</span>
-        <span class="tag">Articulación</span>
-      </div>
-    </div>
-    <div class="member">
-      <div class="avatar av-gray">AR</div>
-      <div class="member-name">Ariel</div>
-      <div class="member-role">Socio impulsor</div>
-      <div class="tag-row">
-        <span class="tag">Decisiones</span>
-        <span class="tag">Financiamiento</span>
-      </div>
-    </div>
-    <div class="member">
-      <div class="avatar av-gray">JB</div>
-      <div class="member-name">José Bringas</div>
-      <div class="member-role">Poseedor de la tierra</div>
-      <div class="tag-row">
-        <span class="tag">Tierra</span>
-        <span class="tag">Vínculo local</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="to-hire">
-    <strong>A incorporar en Fase 1:</strong> abogado inmobiliario · agrimensor · gestor municipal · arquitecto/urbanista · referentes de infraestructura (agua, electricidad, caminos)
-  </div>
-</section>
-
-<hr class="section-rule">
-
-<!-- PRESUPUESTO -->
-<section id="presupuesto">
-  <div class="section-eyebrow">Presupuesto y tiempos</div>
-  <h2>Lo que sabemos. Lo que hay que relevar.</h2>
-  <p class="section-intro">No hay números inventados. Distinguimos lo que ya está estimado de lo que requiere relevamiento técnico.</p>
-
-  <div class="metrics-row">
-    <div class="metric">
-      <div class="metric-label">Duración estimada</div>
-      <div class="metric-val">25–36</div>
-      <div class="metric-sub">meses ciclo completo</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Volumen de ventas</div>
-      <div class="metric-val">~$1.8M</div>
-      <div class="metric-sub">USD · 26 lotes · USD 14/m²</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Pre-proyecto</div>
-      <div class="metric-val">2–3</div>
-      <div class="metric-sub">meses para validar viabilidad</div>
-    </div>
-  </div>
-
-  <table class="budget-table">
-    <thead>
-      <tr>
-        <th>Rubro</th>
-        <th>Estado</th>
-        <th style="text-align:right">Estimación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Precio de venta (USD 14/m²)</td>
-        <td><span class="status-badge s-ok">Dato disponible</span></td>
-        <td class="td-right">A validar vs. costos</td>
-      </tr>
-      <tr>
-        <td>Prospección hidrogeológica (agua)</td>
-        <td><span class="status-badge s-ok">Cotizado</span></td>
-        <td class="td-right">$1.302.500</td>
-      </tr>
-      <tr>
-        <td>Red eléctrica (Cooperativa CEMDO)</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Caminos internos y acceso externo</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Legal, agrimensura y subdivisión</td>
-        <td><span class="status-badge s-warn">A relevar</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Marketing, branding y comercialización</td>
-        <td><span class="status-badge s-none">Sin dato</span></td>
-        <td class="td-right">—</td>
-      </tr>
-      <tr>
-        <td>Centro CREAS (Fase 4)</td>
-        <td><span class="status-badge s-none">Sin dato</span></td>
-        <td class="td-right">Modelo propio</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<footer>
-  Proyecto CREAS · San Javier, Córdoba · Propuesta elaborada por Juan Ignacio Sorrón · Mayo 2026
-</footer>
-
 <script>
-const phases = [
-  {
-    title: 'Fase 1 — Pre-proyecto',
-    desc: 'Convertir la idea en una base estructurada y viable. El objetivo es resolver los dos bloqueantes principales: situación legal de la tierra y factibilidad municipal. Sin esto, no hay proyecto vendible ni inversión justificada.',
-    chips: ['Situación legal tierra','Contacto municipio','Prospección agua','Factibilidad CEMDO','Relevamiento caminos','Definición identidad barrio','Conformar equipo técnico','Estimaciones preliminares']
-  },
-  {
-    title: 'Fase 2 — Planeamiento',
-    desc: 'Con los bloqueantes resueltos, diseñar el proyecto en detalle: masterplan definitivo, reglamentos, presupuestos sólidos y estructura legal-comercial. Esta fase produce el proyecto que sale al mercado.',
-    chips: ['Masterplan definitivo','Reglamento barrio','Presupuesto infraestructura','Estructura legal comercial','Branding y renders','Plan de ventas','Estrategia de canales']
-  },
-  {
-    title: 'Fase 3 — Ejecución',
-    desc: 'La fase más larga y la que genera el resultado. Obras de infraestructura en paralelo con lanzamiento comercial y ventas. El objetivo: lotes entregables, compradores satisfechos, caja funcionando.',
-    chips: ['Obras caminos','Red eléctrica','Agua y saneamiento','Lanzamiento comercial','Ventas activas','Gestión de cobranza','Atención a compradores']
-  },
-  {
-    title: 'Fase 4 — Cierre',
-    desc: 'Escrituración y entrega de los últimos lotes. Cierre administrativo y legal del proyecto. Es también el punto de evaluación y arranque del Centro CREAS como segunda etapa independiente.',
-    chips: ['Escrituras finales','Entrega propietarios','Cierre legal y contable','Evaluación Centro CREAS','Transición a Fase 5']
-  }
-];
+/* ====================================================================
+   EDITÁ SOLO ESTE BLOQUE Y VOLVÉ A PUBLICAR (push al repo). Nada más.
+   - Es una página estática: no guarda cambios desde el navegador y no
+     necesita base de datos. Todo lo que ves (vencidos, próximos pasos,
+     totales) lo calcula sola desde estos datos.
+   - Clave de acceso / edición en vivo / avisos automáticos NO van acá:
+     eso necesita backend. (Los recordatorios de reunión los da Google
+     Calendar sumando a Ariel y Guille como invitados.)
+   - estado de tarea: "cumplido" o "pendiente".
+   - una tarea "pendiente" con fecha ya pasada salta sola a Bloqueos.
+   - fecha en formato "AAAA-MM-DD".
+   ==================================================================== */
+const DATA = {
+  driveUrl: "https://drive.google.com/drive/folders/13Pn51k22zebdLQpIIEeX8KeY0OKmvHpR",
+  editUrl: "",   // pegá el link de edición del archivo en GitHub para que aparezca "Editar datos"
+  moneda: "USD",
 
-function showPhase(i) {
-  document.querySelectorAll('.phase-tab').forEach((t, j) => t.classList.toggle('active', i === j));
-  const p = phases[i];
-  document.getElementById('pp-title').textContent = p.title;
-  document.getElementById('pp-desc').textContent = p.desc;
-  document.getElementById('pp-chips').innerHTML = p.chips.map(c => `<span class="chip">${c}</span>`).join('');
-}
-showPhase(0);
+  detalles: {
+    "Objetivo": "Loteo residencial · 25 parcelas (~5.000 m²). Centro CREAS en Fase 2.",
+    "Ubicación": "San Javier – Achiras Arriba, Córdoba (+950 msnm)",
+    "Terreno": "~15 ha (≈12,5 ha vendibles + Centro + caminos)",
+    "Forma de propiedad": "Derecho posesorio (a estructurar con Fernando)",
+    "Inversión estimada": "A definir en Fase 1",
+    "Fase actual": "Fase 1 – Preproyecto · cierre 30/09/2026"
+  },
 
-// Fade-in on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; } });
-}, { threshold: 0.1 });
-document.querySelectorAll('section').forEach(s => {
-  s.style.opacity = 0; s.style.transform = 'translateY(16px)';
-  s.style.transition = 'opacity .5s ease, transform .5s ease';
-  observer.observe(s);
+  bloqueos: [
+    { titulo:"Enviar propuesta a Ariel para firma electrónica", quien:"Juani", para:"Esta semana" },
+    { titulo:"Encargar a Fernando: crear CREAS SAS + estructurar figura de la tierra", quien:"Juani → Fernando", para:"Esta semana" }
+  ],
+
+  tareas: [
+    { cat:"Legal / Sociedad", nombre:"Enviar propuesta a Ariel para firma electrónica (2 h)", resp:"Juani", fecha:"2026-07-08", estado:"pendiente" },
+    { cat:"Legal / Sociedad", nombre:"Encargo a Fernando (SAS + figura tierra)", resp:"Juani", fecha:"2026-07-08", estado:"pendiente" },
+    { cat:"Legal / Sociedad", nombre:"Constitución CREAS SAS", resp:"Fernando", fecha:"2026-08-15", estado:"pendiente" },
+    { cat:"Legal / Sociedad", nombre:"Dictamen figura de tierra (derecho posesorio)", resp:"Fernando", fecha:"2026-08-15", estado:"pendiente" },
+
+    { cat:"Alcance", nombre:"Documento de alcance v1 (barrio primero vs todo junto)", resp:"Juani", fecha:"2026-08-02", estado:"pendiente" },
+
+    { cat:"Municipal", nombre:"Confirmar zona roja del loteo (agrimensor)", resp:"Agrimensor", fecha:"2026-08-23", estado:"pendiente" },
+
+    { cat:"Económico", nombre:"Planilla: presupuesto + P&L + proyección", resp:"Juani", fecha:"2026-08-09", estado:"pendiente" },
+    { cat:"Económico", nombre:"Cotizaciones de costos (equipo extendido)", resp:"Juani", fecha:"2026-08-30", estado:"pendiente" },
+
+    { cat:"Equipo", nombre:"Equipo extendido con nombre y contacto", resp:"Juani", fecha:"2026-07-26", estado:"pendiente" },
+    { cat:"Riesgos", nombre:"Matriz de riesgos + plan de acción", resp:"Juani", fecha:"2026-07-26", estado:"pendiente" },
+    { cat:"Servicios", nombre:"Plan de servicios (caminos, agua, luz, internet) v1", resp:"Juani", fecha:"2026-09-06", estado:"pendiente" },
+
+    { cat:"Gobernanza", nombre:"Reunión R2 (avance)", resp:"Equipo base", fecha:"2026-07-22", estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión R3 (avance)", resp:"Equipo base", fecha:"2026-08-12", estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión R4 (avance)", resp:"Equipo base", fecha:"2026-09-02", estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión Go/No-Go (cierre Fase 1)", resp:"Equipo base", fecha:"2026-09-23", estado:"pendiente" }
+  ],
+
+  // Agregá filas: { fecha, concepto, categoria, monto }
+  gastos: [
+    // { fecha:"2026-07-20", concepto:"Honorarios constitución SAS", categoria:"Legal / Sociedad", monto:400 }
+  ]
+};
+
+/* ---------- render (no tocar) ---------- */
+const $=id=>document.getElementById(id);
+const today=new Date(); today.setHours(0,0,0,0);
+const fmt=iso=>{const[a,m,d]=iso.split("-");return d+"/"+m};
+const money=n=>DATA.moneda+" "+n.toLocaleString("es-AR");
+
+$("driveBtn").href=DATA.driveUrl;
+if(DATA.editUrl){ const e=$("editBtn"); e.href=DATA.editUrl; e.style.display=""; }
+$("updated").textContent="Actualizado "+today.toLocaleDateString("es-AR",{day:"numeric",month:"long",year:"numeric"});
+
+$("details").innerHTML=Object.entries(DATA.detalles).map(([k,v])=>{
+  const ph=k==="Fase actual"?" phase":"";
+  return `<div class="det${ph}"><dt>${k}</dt><dd>${v}</dd></div>`;
+}).join("");
+
+DATA.tareas.forEach(t=>{ t._late = t.estado!=="cumplido" && new Date(t.fecha+"T00:00:00")<today; });
+
+let bl="";
+DATA.bloqueos.forEach(b=>{
+  bl+=`<div class="block-item"><span class="dot"></span><div class="block-body">
+    <div class="block-title">${b.titulo}</div>
+    <div class="block-meta">${b.quien} · para ${b.para}</div></div></div>`;
 });
+DATA.tareas.filter(t=>t._late).forEach(t=>{
+  bl+=`<div class="block-item"><span class="dot"></span><div class="block-body">
+    <div class="block-title">${t.nombre}<span class="tag">vencido ${fmt(t.fecha)}</span></div>
+    <div class="block-meta">${t.resp} · ${t.cat}</div></div></div>`;
+});
+$("blockers").innerHTML=bl||'<p class="empty">Sin bloqueos. Todo en fecha.</p>';
+
+const nextByCat={};
+DATA.tareas.forEach(t=>{
+  if(t.estado==="cumplido") return;
+  if(!nextByCat[t.cat] || t.fecha<nextByCat[t.cat].fecha) nextByCat[t.cat]=t;
+});
+$("nextSteps").innerHTML=Object.values(nextByCat).map(t=>
+  `<div class="next"><div class="cat">${t.cat}</div>
+   <div class="task">${t.nombre}</div>
+   <div class="meta">${t.resp} · ${fmt(t.fecha)}${t._late?' · <span style="color:var(--clay)">vencido</span>':''}</div></div>`
+).join("") || '<p class="empty">Todo cumplido.</p>';
+
+const cats=[...new Set(DATA.tareas.map(t=>t.cat))];
+$("timeline").innerHTML=cats.map(c=>{
+  const items=DATA.tareas.filter(t=>t.cat===c).map(t=>{
+    const cls=t.estado==="cumplido"?"done":t._late?"late":"";
+    const st=t.estado==="cumplido"?'<span class="status done">Cumplido</span>':
+             t._late?'<span class="status late">Vencido</span>':'<span class="status pend">Pendiente</span>';
+    return `<div class="task-row ${cls}"><div class="t-main">
+      <div class="t-name">${t.nombre}</div><div class="t-resp">${t.resp}</div></div>
+      <span class="t-date">${fmt(t.fecha)}</span>${st}</div>`;
+  }).join("");
+  return `<div class="cat-block"><div class="cat-name">${c}</div><div class="line">${items}</div></div>`;
+}).join("");
+
+if(DATA.gastos.length){
+  $("expBody").innerHTML=DATA.gastos.map(g=>
+    `<tr><td>${fmt(g.fecha)}</td><td>${g.concepto}</td><td><span class="chip">${g.categoria||"—"}</span></td><td class="num">${money(g.monto)}</td></tr>`).join("");
+  $("expTotal").textContent=money(DATA.gastos.reduce((s,g)=>s+g.monto,0));
+}else{
+  $("expBody").innerHTML='<tr><td colspan="4" class="empty">Sin gastos registrados aún.</td></tr>';
+  $("expTotal").textContent=money(0);
+}
 </script>
 </body>
 </html>
