@@ -10,7 +10,7 @@
 <style>
 :root{
   --paper:#ECEDE6; --surface:#F6F5EF; --ink:#2B2A23; --olive:#5F6B45;
-  --clay:#A9552F; --muted:#8A8778; --border:#D9D8CC; --olive-soft:#E7E9DB;
+  --clay:#A9552F; --tomato:#B03A2E; --muted:#8A8778; --border:#D9D8CC; --olive-soft:#E7E9DB;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);
@@ -22,14 +22,14 @@ body{margin:0;background:var(--paper);color:var(--ink);
   text-transform:uppercase;color:var(--muted);margin-top:8px}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:14px;
-  padding:11px 18px;border-radius:10px}
+  padding:11px 18px;border-radius:10px;border:none;cursor:pointer;font-family:inherit}
 .btn-primary{background:var(--olive);color:#fff}
 .btn-primary:hover{background:#525c3b}
 .btn-ghost{background:transparent;color:var(--olive);border:1px solid var(--border)}
 .btn-ghost:hover{border-color:var(--olive)}
 .updated{font-size:12px;color:var(--muted);margin:2px 0 22px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
 .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;background:var(--border);
   border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px}
 .det{background:var(--surface);padding:16px 18px}
@@ -45,11 +45,11 @@ body{margin:0;background:var(--paper);color:var(--ink);
 .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;
   background:#F1D9CE;color:var(--clay);margin-left:8px;vertical-align:middle}
 .empty{color:var(--muted);font-style:italic;padding:6px 0}
-.next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.next{border-left:3px solid var(--olive);padding:2px 0 2px 14px}
-.next .cat{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--olive)}
-.next .task{font-size:14px;font-weight:500;margin-top:3px}
-.next .meta{font-size:12px;color:var(--muted);margin-top:2px}
+/* Camino crítico strip */
+.crit-strip{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:4px}
+.crit-node{font-size:12px;font-weight:600;color:#fff;background:var(--tomato);padding:5px 11px;border-radius:8px}
+.crit-arrow{color:var(--muted)}
+/* Timeline */
 .cat-block{margin-bottom:6px}
 .cat-name{font-family:Fraunces,serif;font-weight:600;font-size:17px;margin:18px 0 4px}
 .cat-block:first-child .cat-name{margin-top:0}
@@ -60,23 +60,41 @@ body{margin:0;background:var(--paper);color:var(--ink);
   background:var(--surface);border:2px solid var(--muted)}
 .task-row.done::before{background:var(--olive);border-color:var(--olive)}
 .task-row.late::before{background:var(--clay);border-color:var(--clay)}
+.task-row.crit{border-left:3px solid var(--tomato);margin-left:-3px;padding-left:12px;border-radius:0 0 0 0}
 .t-main{flex:1}
 .t-name{font-size:14px;font-weight:500}
+.t-name .star{color:var(--tomato);margin-left:6px;font-size:12px}
 .task-row.done .t-name{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--border)}
-.t-resp{font-size:12px;color:var(--muted);margin-top:1px}
-.t-date{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.t-meta{font-size:12px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.t-right{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.t-date{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
 .status{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
 .status.done{background:var(--olive-soft);color:var(--olive)}
 .status.pend{background:#EDEBE1;color:var(--muted)}
 .status.late{background:#F1D9CE;color:var(--clay)}
-.eco table{width:100%;border-collapse:collapse;font-size:14px}
-.eco th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+.prio{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+.prio.baja{background:#E9E7DE;color:var(--muted)}
+.prio.media{background:var(--olive-soft);color:var(--olive)}
+.prio.alta{background:#F1D9CE;color:var(--clay)}
+.prio.critica{background:#F3D2CD;color:var(--tomato)}
+/* Log */
+.log table,.eco table{width:100%;border-collapse:collapse;font-size:14px}
+.log th,.eco th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
   font-weight:600;padding:0 0 8px;border-bottom:1px solid var(--border)}
-.eco td{padding:10px 0;border-bottom:1px solid var(--border)}
+.log td,.eco td{padding:9px 0;border-bottom:1px solid var(--border);vertical-align:top}
 .eco td.num{text-align:right;font-variant-numeric:tabular-nums}
 .eco tfoot td{font-weight:700;border-bottom:none;padding-top:14px}
 .chip{font-size:12px;padding:2px 9px;border-radius:20px;background:var(--olive-soft);color:var(--olive)}
-@media(max-width:560px){.brand{font-size:28px}.t-date{display:none}}
+/* Log form */
+.logform{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px;display:none}
+.logform.open{display:block}
+.logform .grid{display:grid;grid-template-columns:120px 1fr 150px 130px;gap:8px;margin-bottom:10px}
+.logform input,.logform select{font-family:inherit;font-size:13px;padding:8px;border:1px solid var(--border);
+  border-radius:7px;background:#fff;width:100%}
+.persist{margin-top:10px;font-size:12px;color:var(--muted)}
+.persist textarea{width:100%;font-family:ui-monospace,monospace;font-size:12px;padding:8px;border:1px solid var(--border);
+  border-radius:7px;margin-top:6px;background:#fff;resize:vertical;min-height:52px}
+@media(max-width:640px){.brand{font-size:28px}.logform .grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -99,13 +117,29 @@ body{margin:0;background:var(--paper);color:var(--ink);
   </section>
 
   <section class="card">
-    <p class="eyebrow">Próximo paso por categoría</p>
-    <div class="next-grid" id="nextSteps"></div>
+    <p class="eyebrow">Cronograma por categoría · camino crítico en rojo</p>
+    <div class="crit-strip" id="critStrip"></div>
+    <div id="timeline" style="margin-top:14px"></div>
   </section>
 
-  <section class="card">
-    <p class="eyebrow">Cronograma por categoría</p>
-    <div id="timeline"></div>
+  <section class="card log">
+    <p class="eyebrow"><span>Log de acciones</span>
+      <button class="btn btn-ghost" id="logToggle" style="padding:6px 12px;font-size:13px">＋ Registrar acción</button></p>
+    <div class="logform" id="logForm">
+      <div class="grid">
+        <input type="date" id="lFecha">
+        <input type="text" id="lAct" placeholder="¿Qué se hizo?">
+        <select id="lCat"><option>Legal</option><option>Alcance</option><option>Económico</option><option>Equipo</option><option>Servicios</option><option>Gobernanza</option><option>Coordinación</option></select>
+        <input type="text" id="lResp" placeholder="Responsable" value="Juani">
+      </div>
+      <button class="btn btn-primary" id="lAdd" style="padding:8px 16px;font-size:13px">Agregar al log</button>
+      <div class="persist" id="lPersist" style="display:none">
+        Se muestra ahora en esta sesión. Para que <b>quede guardado y lo vea el equipo</b>, pegá esta línea dentro de <code>log:[ ]</code> en tu <code>index.html</code> y publicá:
+        <textarea id="lCode" readonly></textarea>
+      </div>
+    </div>
+    <table><thead><tr><th style="width:70px">Fecha</th><th>Actividad</th><th style="width:130px">Categoría</th><th style="width:110px">Responsable</th></tr></thead>
+      <tbody id="logBody"></tbody></table>
   </section>
 
   <section class="card eco">
@@ -121,73 +155,77 @@ body{margin:0;background:var(--paper);color:var(--ink);
 
 <script>
 /* ====================================================================
-   EDITÁ SOLO ESTE BLOQUE Y VOLVÉ A PUBLICAR (push al repo). Nada más.
-   - Es una página estática: no guarda cambios desde el navegador y no
-     necesita base de datos. Todo lo que ves (vencidos, próximos pasos,
-     totales) lo calcula sola desde estos datos.
-   - Clave de acceso / edición en vivo / avisos automáticos NO van acá:
-     eso necesita backend. (Los recordatorios de reunión los da Google
-     Calendar sumando a Ariel y Guille como invitados.)
-   - estado de tarea: "cumplido" o "pendiente".
-   - una tarea "pendiente" con fecha ya pasada salta sola a Bloqueos.
-   - fecha en formato "AAAA-MM-DD".
+   EDITÁ ESTE BLOQUE Y VOLVÉ A PUBLICAR (push al repo).
+   Es una página estática: no guarda solo ni comparte ediciones del
+   navegador. El formulario "Registrar acción" te arma la línea lista
+   para pegar acá abajo en "log". No necesita base de datos.
+   - tarea: estado "cumplido"/"pendiente"; critico true = camino crítico;
+     prioridad: "baja"|"media"|"alta"|"critica"; fechas "AAAA-MM-DD".
    ==================================================================== */
 const DATA = {
   driveUrl: "https://drive.google.com/drive/folders/13Pn51k22zebdLQpIIEeX8KeY0OKmvHpR",
-  editUrl: "",   // pegá el link de edición del archivo en GitHub para que aparezca "Editar datos"
+  editUrl: "",
   moneda: "USD",
 
   detalles: {
     "Objetivo": "Loteo residencial · 25 parcelas (~5.000 m²). Centro CREAS en Fase 2.",
     "Ubicación": "San Javier – Achiras Arriba, Córdoba (+950 msnm)",
     "Terreno": "~15 ha (≈12,5 ha vendibles + Centro + caminos)",
-    "Forma de propiedad": "Derecho posesorio (a estructurar con Fernando)",
+    "Forma de propiedad": "Derecho posesorio / compra a Bringas (a estructurar)",
     "Inversión estimada": "A definir en Fase 1",
     "Fase actual": "Fase 1 – Preproyecto · cierre 30/09/2026"
   },
 
   bloqueos: [
     { titulo:"Enviar propuesta a Ariel para firma electrónica", quien:"Juani", para:"Esta semana" },
-    { titulo:"Encargar a Fernando: crear CREAS SAS + estructurar figura de la tierra", quien:"Juani → Fernando", para:"Esta semana" }
+    { titulo:"Respuesta de Fernando: figura de la tierra + CREAS SAS", quien:"Fernando", para:"En curso" }
   ],
 
+  // inicio, fin, prioridad, critico
   tareas: [
-    { cat:"Legal / Sociedad", nombre:"Enviar propuesta a Ariel para firma electrónica (2 h)", resp:"Juani", fecha:"2026-07-08", estado:"pendiente" },
-    { cat:"Legal / Sociedad", nombre:"Encargo a Fernando (SAS + figura tierra)", resp:"Juani", fecha:"2026-07-08", estado:"pendiente" },
-    { cat:"Legal / Sociedad", nombre:"Constitución CREAS SAS", resp:"Fernando", fecha:"2026-08-15", estado:"pendiente" },
-    { cat:"Legal / Sociedad", nombre:"Dictamen figura de tierra (derecho posesorio)", resp:"Fernando", fecha:"2026-08-15", estado:"pendiente" },
+    { cat:"Legal", nombre:"Enviar propuesta a Ariel (firma electrónica)", resp:"Juani", inicio:"2026-07-06", fin:"2026-07-08", prioridad:"critica", critico:true, estado:"pendiente" },
+    { cat:"Legal", nombre:"Encargo a Fernando (SAS + figura tierra)", resp:"Juani", inicio:"2026-07-06", fin:"2026-07-08", prioridad:"critica", critico:true, estado:"cumplido" },
+    { cat:"Legal", nombre:"Dictamen figura de tierra + compra a Bringas", resp:"Fernando", inicio:"2026-07-15", fin:"2026-08-15", prioridad:"critica", critico:true, estado:"pendiente" },
+    { cat:"Legal", nombre:"Constitución CREAS SAS", resp:"Fernando", inicio:"2026-07-15", fin:"2026-08-15", prioridad:"alta", critico:false, estado:"pendiente" },
 
-    { cat:"Alcance", nombre:"Documento de alcance v1 (barrio primero vs todo junto)", resp:"Juani", fecha:"2026-08-02", estado:"pendiente" },
+    { cat:"Alcance", nombre:"Documento de alcance v1", resp:"Juani", inicio:"2026-07-06", fin:"2026-08-02", prioridad:"alta", critico:false, estado:"pendiente" },
 
-    { cat:"Municipal", nombre:"Confirmar zona roja del loteo (agrimensor)", resp:"Agrimensor", fecha:"2026-08-23", estado:"pendiente" },
+    { cat:"Municipal", nombre:"Confirmar zona roja del loteo (G2)", resp:"Agrimensor", inicio:"2026-07-26", fin:"2026-08-23", prioridad:"critica", critico:true, estado:"pendiente" },
 
-    { cat:"Económico", nombre:"Planilla: presupuesto + P&L + proyección", resp:"Juani", fecha:"2026-08-09", estado:"pendiente" },
-    { cat:"Económico", nombre:"Cotizaciones de costos (equipo extendido)", resp:"Juani", fecha:"2026-08-30", estado:"pendiente" },
+    { cat:"Económico", nombre:"Modelo por fases + P&L + venta", resp:"Juani", inicio:"2026-07-20", fin:"2026-08-09", prioridad:"critica", critico:true, estado:"pendiente" },
+    { cat:"Económico", nombre:"Cotizaciones de costos (equipo extendido)", resp:"Juani", inicio:"2026-08-09", fin:"2026-08-30", prioridad:"alta", critico:true, estado:"pendiente" },
 
-    { cat:"Equipo", nombre:"Equipo extendido con nombre y contacto", resp:"Juani", fecha:"2026-07-26", estado:"pendiente" },
-    { cat:"Riesgos", nombre:"Matriz de riesgos + plan de acción", resp:"Juani", fecha:"2026-07-26", estado:"pendiente" },
-    { cat:"Servicios", nombre:"Plan de servicios (caminos, agua, luz, internet) v1", resp:"Juani", fecha:"2026-09-06", estado:"pendiente" },
+    { cat:"Equipo", nombre:"Equipo extendido con nombre y contacto", resp:"Juani", inicio:"2026-07-08", fin:"2026-07-26", prioridad:"media", critico:false, estado:"pendiente" },
+    { cat:"Riesgos", nombre:"Matriz de riesgos + plan de acción", resp:"Juani", inicio:"2026-07-08", fin:"2026-07-26", prioridad:"media", critico:false, estado:"pendiente" },
+    { cat:"Servicios", nombre:"Plan de servicios (caminos, agua, luz, internet)", resp:"Juani", inicio:"2026-08-09", fin:"2026-09-06", prioridad:"media", critico:false, estado:"pendiente" },
 
-    { cat:"Gobernanza", nombre:"Reunión R2 (avance)", resp:"Equipo base", fecha:"2026-07-22", estado:"pendiente" },
-    { cat:"Gobernanza", nombre:"Reunión R3 (avance)", resp:"Equipo base", fecha:"2026-08-12", estado:"pendiente" },
-    { cat:"Gobernanza", nombre:"Reunión R4 (avance)", resp:"Equipo base", fecha:"2026-09-02", estado:"pendiente" },
-    { cat:"Gobernanza", nombre:"Reunión Go/No-Go (cierre Fase 1)", resp:"Equipo base", fecha:"2026-09-23", estado:"pendiente" }
+    { cat:"Gobernanza", nombre:"Reunión R2", resp:"Equipo base", inicio:"2026-07-22", fin:"2026-07-22", prioridad:"media", critico:false, estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión R3", resp:"Equipo base", inicio:"2026-08-12", fin:"2026-08-12", prioridad:"media", critico:false, estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión R4", resp:"Equipo base", inicio:"2026-09-02", fin:"2026-09-02", prioridad:"media", critico:false, estado:"pendiente" },
+    { cat:"Gobernanza", nombre:"Reunión Go/No-Go (cierre Fase 1)", resp:"Equipo base", inicio:"2026-09-23", fin:"2026-09-23", prioridad:"critica", critico:true, estado:"pendiente" }
   ],
 
-  // Agregá filas: { fecha, concepto, categoria, monto }
+  // Log de acciones. Agregá arriba: { fecha, actividad, categoria, responsable }
+  log: [
+    { fecha:"2026-07-06", actividad:"Guillermo sumado a las 4 reuniones del calendario", categoria:"Gobernanza", responsable:"Juani" },
+    { fecha:"2026-07-06", actividad:"Mensaje a Fernando: SAS, compra de tierra, zona roja, loteo", categoria:"Legal", responsable:"Juani" },
+    { fecha:"2026-07-06", actividad:"Pedido de emails al grupo; Guille compartió el suyo", categoria:"Coordinación", responsable:"Juani" },
+    { fecha:"2026-07-05", actividad:"Creadas carpetas base en Drive + eventos de calendario", categoria:"Coordinación", responsable:"Juani" }
+  ],
+
   gastos: [
-    // { fecha:"2026-07-20", concepto:"Honorarios constitución SAS", categoria:"Legal / Sociedad", monto:400 }
+    // { fecha:"2026-07-20", concepto:"Honorarios constitución SAS", categoria:"Legal", monto:400 }
   ]
 };
 
-/* ---------- render (no tocar) ---------- */
+/* ---------- render ---------- */
 const $=id=>document.getElementById(id);
 const today=new Date(); today.setHours(0,0,0,0);
 const fmt=iso=>{const[a,m,d]=iso.split("-");return d+"/"+m};
 const money=n=>DATA.moneda+" "+n.toLocaleString("es-AR");
 
 $("driveBtn").href=DATA.driveUrl;
-if(DATA.editUrl){ const e=$("editBtn"); e.href=DATA.editUrl; e.style.display=""; }
+if(DATA.editUrl){const e=$("editBtn");e.href=DATA.editUrl;e.style.display="";}
 $("updated").textContent="Actualizado "+today.toLocaleDateString("es-AR",{day:"numeric",month:"long",year:"numeric"});
 
 $("details").innerHTML=Object.entries(DATA.detalles).map(([k,v])=>{
@@ -195,45 +233,63 @@ $("details").innerHTML=Object.entries(DATA.detalles).map(([k,v])=>{
   return `<div class="det${ph}"><dt>${k}</dt><dd>${v}</dd></div>`;
 }).join("");
 
-DATA.tareas.forEach(t=>{ t._late = t.estado!=="cumplido" && new Date(t.fecha+"T00:00:00")<today; });
+DATA.tareas.forEach(t=>{ t._late = t.estado!=="cumplido" && new Date(t.fin+"T00:00:00")<today; });
 
+// Bloqueos
 let bl="";
 DATA.bloqueos.forEach(b=>{
   bl+=`<div class="block-item"><span class="dot"></span><div class="block-body">
-    <div class="block-title">${b.titulo}</div>
-    <div class="block-meta">${b.quien} · para ${b.para}</div></div></div>`;
+    <div class="block-title">${b.titulo}</div><div class="block-meta">${b.quien} · ${b.para}</div></div></div>`;
 });
 DATA.tareas.filter(t=>t._late).forEach(t=>{
   bl+=`<div class="block-item"><span class="dot"></span><div class="block-body">
-    <div class="block-title">${t.nombre}<span class="tag">vencido ${fmt(t.fecha)}</span></div>
+    <div class="block-title">${t.nombre}<span class="tag">vencido ${fmt(t.fin)}</span></div>
     <div class="block-meta">${t.resp} · ${t.cat}</div></div></div>`;
 });
 $("blockers").innerHTML=bl||'<p class="empty">Sin bloqueos. Todo en fecha.</p>';
 
-const nextByCat={};
-DATA.tareas.forEach(t=>{
-  if(t.estado==="cumplido") return;
-  if(!nextByCat[t.cat] || t.fecha<nextByCat[t.cat].fecha) nextByCat[t.cat]=t;
-});
-$("nextSteps").innerHTML=Object.values(nextByCat).map(t=>
-  `<div class="next"><div class="cat">${t.cat}</div>
-   <div class="task">${t.nombre}</div>
-   <div class="meta">${t.resp} · ${fmt(t.fecha)}${t._late?' · <span style="color:var(--clay)">vencido</span>':''}</div></div>`
-).join("") || '<p class="empty">Todo cumplido.</p>';
+// Camino crítico (orden por fin)
+const crit=DATA.tareas.filter(t=>t.critico).sort((a,b)=>a.fin.localeCompare(b.fin));
+$("critStrip").innerHTML=crit.map((t,i)=>
+  `${i?'<span class="crit-arrow">→</span>':''}<span class="crit-node">${t.nombre}</span>`).join("");
 
+// Timeline
 const cats=[...new Set(DATA.tareas.map(t=>t.cat))];
 $("timeline").innerHTML=cats.map(c=>{
   const items=DATA.tareas.filter(t=>t.cat===c).map(t=>{
-    const cls=t.estado==="cumplido"?"done":t._late?"late":"";
+    const cls=(t.estado==="cumplido"?"done ":t._late?"late ":"")+(t.critico?"crit":"");
     const st=t.estado==="cumplido"?'<span class="status done">Cumplido</span>':
              t._late?'<span class="status late">Vencido</span>':'<span class="status pend">Pendiente</span>';
     return `<div class="task-row ${cls}"><div class="t-main">
-      <div class="t-name">${t.nombre}</div><div class="t-resp">${t.resp}</div></div>
-      <span class="t-date">${fmt(t.fecha)}</span>${st}</div>`;
+      <div class="t-name">${t.nombre}${t.critico?'<span class="star">★ crítica</span>':''}</div>
+      <div class="t-meta"><span class="prio ${t.prioridad}">${t.prioridad}</span>
+        <span class="t-date">${fmt(t.inicio)} → ${fmt(t.fin)}</span><span>· ${t.resp}</span></div></div>
+      <div class="t-right">${st}</div></div>`;
   }).join("");
   return `<div class="cat-block"><div class="cat-name">${c}</div><div class="line">${items}</div></div>`;
 }).join("");
 
+// Log
+let LOG=[...DATA.log];
+function renderLog(){
+  $("logBody").innerHTML=LOG.map(l=>
+    `<tr><td>${fmt(l.fecha)}</td><td>${l.actividad}</td><td><span class="chip">${l.categoria}</span></td><td>${l.responsable}</td></tr>`).join("")
+    || '<tr><td colspan="4" class="empty">Sin acciones registradas.</td></tr>';
+}
+renderLog();
+
+$("logToggle").onclick=()=>{ $("logForm").classList.toggle("open");
+  if(!$("lFecha").value) $("lFecha").value=new Date().toISOString().slice(0,10); };
+$("lAdd").onclick=()=>{
+  const e={fecha:$("lFecha").value||new Date().toISOString().slice(0,10),
+    actividad:$("lAct").value.trim(),categoria:$("lCat").value,responsable:$("lResp").value.trim()||"Juani"};
+  if(!e.actividad){$("lAct").focus();return;}
+  LOG.unshift(e); renderLog();
+  $("lCode").value=`  { fecha:"${e.fecha}", actividad:"${e.actividad.replace(/"/g,"'")}", categoria:"${e.categoria}", responsable:"${e.responsable}" },`;
+  $("lPersist").style.display="block"; $("lAct").value="";
+};
+
+// Gastos
 if(DATA.gastos.length){
   $("expBody").innerHTML=DATA.gastos.map(g=>
     `<tr><td>${fmt(g.fecha)}</td><td>${g.concepto}</td><td><span class="chip">${g.categoria||"—"}</span></td><td class="num">${money(g.monto)}</td></tr>`).join("");
