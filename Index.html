@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tablero CREAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ECEDE6;--surface:#F6F5EF;--ink:#2B2A23;--olive:#5F6B45;--clay:#A9552F;--tomato:#B03A2E;--muted:#8A8778;--border:#D9D8CC;--olive-soft:#E7E9DB}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 20px 80px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.brand{font-family:Fraunces,serif;font-weight:900;font-size:34px;letter-spacing:-.02em;line-height:1}
+.brand small{display:block;font-family:Inter;font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:14px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--olive);color:#fff}.btn-primary:hover{background:#525c3b}
+.btn-ghost{background:transparent;color:var(--olive);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--olive)}
+.btn-edit{background:var(--clay);color:#fff}.btn-edit:hover{background:#8f4526}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:7px}
+.editbanner{background:#F1D9CE;color:var(--clay);font-weight:600;font-size:13px;padding:8px 14px;border-radius:9px;margin-bottom:16px;display:none}
+.editbanner.on{display:block}
+/* tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab{padding:10px 16px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.active{color:var(--olive);border-bottom-color:var(--olive)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.det{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative}
+.det.phase{background:var(--olive-soft)}
+.det dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.det dd{margin:0;font-size:15px;font-weight:500}
+.rowbtns{display:flex;gap:6px;margin-top:8px}
+.block-item{display:flex;gap:14px;align-items:baseline;padding:12px 0;border-top:1px solid var(--border)}
+.block-item:first-of-type{border-top:none}
+.dot{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:var(--clay);margin-top:7px}
+.block-body{flex:1}.block-title{font-weight:600}.block-meta{font-size:13px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:#F1D9CE;color:var(--clay);margin-left:8px}
+.empty{color:var(--muted);font-style:italic;padding:6px 0}
+.crit-strip{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.crit-node{font-size:12px;font-weight:600;color:#fff;background:var(--tomato);padding:5px 11px;border-radius:8px}
+.crit-arrow{color:var(--muted)}
+.cat-block{margin-bottom:6px}
+.cat-name{font-family:Fraunces,serif;font-weight:600;font-size:17px;margin:18px 0 4px}
+.cat-block:first-child .cat-name{margin-top:0}
+.line{position:relative;padding-left:22px}
+.line::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.task-row{position:relative;padding:9px 0;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.task-row::before{content:"";position:absolute;left:-21px;top:14px;width:11px;height:11px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.task-row.done::before{background:var(--olive);border-color:var(--olive)}
+.task-row.late::before{background:var(--clay);border-color:var(--clay)}
+.task-row.crit{border-left:3px solid var(--tomato);margin-left:-3px;padding-left:12px}
+.t-main{flex:1}.t-name{font-size:14px;font-weight:500}.t-name .star{color:var(--tomato);margin-left:6px;font-size:12px}
+.task-row.done .t-name{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--border)}
+.t-meta{font-size:12px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.t-right{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.t-date{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.status{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.status.done{background:var(--olive-soft);color:var(--olive)}.status.pend{background:#EDEBE1;color:var(--muted)}.status.late{background:#F1D9CE;color:var(--clay)}
+.prio{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+.prio.baja{background:#E9E7DE;color:var(--muted)}.prio.media{background:var(--olive-soft);color:var(--olive)}.prio.alta{background:#F1D9CE;color:var(--clay)}.prio.critica{background:#F3D2CD;color:var(--tomato)}
+.tbl-wrap{overflow-x:auto}
+table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+table.data th{text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 10px 8px 0;border-bottom:1px solid var(--border);white-space:nowrap}
+table.data td{padding:10px 10px 10px 0;border-bottom:1px solid var(--border);vertical-align:top}
+table.data tr:last-child td{border-bottom:none}
+.id{font-weight:700;color:var(--tomato)}
+.lvl{font-size:11px;font-weight:700;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;display:inline-block}
+.lvl.A{background:#F3D2CD;color:var(--tomato)}.lvl.M{background:#F1D9CE;color:var(--clay)}.lvl.B{background:#E9E7DE;color:var(--muted)}
+.chip{font-size:12px;padding:2px 9px;border-radius:20px;background:var(--olive-soft);color:var(--olive);white-space:nowrap}
+.chip.warn{background:#F1D9CE;color:var(--clay)}.chip.core{background:var(--olive);color:#fff}
+.eco td.num{text-align:right;font-variant-numeric:tabular-nums}.eco tfoot td{font-weight:700;border-bottom:none;padding-top:14px}
+.acts{display:flex;gap:6px;white-space:nowrap}
+.iconbtn{border:1px solid var(--border);background:#fff;border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.iconbtn:hover{border-color:var(--olive)}.iconbtn.del:hover{border-color:var(--tomato);color:var(--tomato)}
+.msg{padding:14px 18px;border-radius:10px;background:#F1D9CE;color:var(--clay);font-size:14px;margin-bottom:16px}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(43,42,35,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.overlay.on{display:flex}
+.modal{background:var(--surface);border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow:auto}
+.modal h3{font-family:Fraunces,serif;margin:0 0 16px;font-size:20px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.field input,.field select,.field textarea{width:100%;font-family:inherit;font-size:14px;padding:9px;border:1px solid var(--border);border-radius:8px;background:#fff}
+.field textarea{min-height:64px;resize:vertical}
+.field.check{display:flex;align-items:center;gap:8px}.field.check input{width:auto}.field.check label{margin:0}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+@media(max-width:560px){.brand{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">CREAS<small>Tablero del proyecto · Fase 1</small></div>
+    <div class="actions">
+      <a class="btn btn-ghost" id="driveBtn" href="#" target="_blank" rel="noopener">📁 Drive</a>
+      <button class="btn btn-edit" id="editBtn">🔒 Editar</button>
+    </div>
+  </div>
+  <div class="editbanner" id="editBanner">Modo edición activo — tus cambios se guardan en la base.</div>
+  <div id="msg"></div>
+  <div class="tabs" id="tabs"></div>
+  <div id="content"></div>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal"><h3 id="modalTitle"></h3><div id="modalBody"></div>
+  <div class="modal-btns"><button class="btn btn-ghost" id="modalCancel">Cancelar</button><button class="btn btn-primary" id="modalSave">Guardar</button></div>
+</div></div>
+
+<script>
+/* ==== Configuración: si algún día cambia el dominio de la API, editá esta línea ==== */
+const API = "https://creas-api-production.up.railway.app";
+const DRIVE = "https://drive.google.com/drive/folders/13Pn51k22zebdLQpIIEeX8KeY0OKmvHpR";
+
+const $=id=>document.getElementById(id);
+const today=new Date(); today.setHours(0,0,0,0);
+const dstr=v=>(v==null?"":String(v)).slice(0,10);
+const fmt=v=>{const s=dstr(v);if(!s)return"";const[a,m,d]=s.split("-");return d+"/"+m};
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const money=n=>"USD "+Number(n||0).toLocaleString("es-AR");
+
+let DATA={detalles:[],bloqueos:[],tareas:[],riesgos:[],equipo:[],log:[],gastos:[]};
+let KEY=null, EDIT=false, TAB="resumen";
+
+const LOGCATS=["Legal","Alcance","Económico","Equipo","Servicios","Gobernanza","Coordinación"];
+const SCHEMAS={
+  detalles:{sing:"Tarjeta",fields:[{n:"clave",l:"Título",t:"text"},{n:"valor",l:"Contenido",t:"textarea"},{n:"orden",l:"Orden",t:"number"}]},
+  bloqueos:{sing:"Bloqueo",fields:[{n:"titulo",l:"Título",t:"text"},{n:"quien",l:"Quién",t:"text"},{n:"para",l:"Para cuándo",t:"text"}]},
+  tareas:{sing:"Tarea",fields:[{n:"categoria",l:"Categoría",t:"text"},{n:"nombre",l:"Nombre",t:"text"},{n:"responsable",l:"Responsable",t:"text"},{n:"inicio",l:"Inicio",t:"date"},{n:"fin",l:"Fin",t:"date"},{n:"prioridad",l:"Prioridad",t:"select",o:["baja","media","alta","critica"]},{n:"critico",l:"Camino crítico",t:"check"},{n:"estado",l:"Estado",t:"select",o:["pendiente","cumplido"]}]},
+  riesgos:{sing:"Riesgo",fields:[{n:"id",l:"ID (ej. R9)",t:"text",createOnly:true},{n:"riesgo",l:"Riesgo",t:"textarea"},{n:"categoria",l:"Categoría",t:"text"},{n:"impacto",l:"Impacto",t:"select",o:["A","M","B"]},{n:"probabilidad",l:"Probabilidad",t:"select",o:["A","M","B"]},{n:"mitigacion",l:"Mitigación",t:"textarea"},{n:"accion",l:"Acción concreta",t:"text"},{n:"dueno",l:"Dueño",t:"text"},{n:"estado",l:"Estado",t:"text"}]},
+  equipo:{sing:"Persona",fields:[{n:"nombre",l:"Nombre",t:"text"},{n:"rol",l:"Rol / Categoría",t:"text"},{n:"tipo",l:"Tipo",t:"select",o:["Núcleo","Extendido"]},{n:"contacto",l:"Contacto",t:"text"},{n:"estado",l:"Estado",t:"text"},{n:"proxima_accion",l:"Próxima acción",t:"text"}]},
+  log:{sing:"Acción",fields:[{n:"fecha",l:"Fecha",t:"date"},{n:"actividad",l:"Actividad",t:"text"},{n:"categoria",l:"Categoría",t:"select",o:LOGCATS},{n:"responsable",l:"Responsable",t:"text"}]},
+  gastos:{sing:"Gasto",fields:[{n:"fecha",l:"Fecha",t:"date"},{n:"concepto",l:"Concepto",t:"text"},{n:"categoria",l:"Categoría",t:"text"},{n:"monto",l:"Monto (USD)",t:"number"}]}
+};
+const TABS=[["resumen","Resumen"],["cronograma","Cronograma"],["riesgos","Riesgos"],["equipo","Equipo"],["log","Log"],["gastos","Gastos"]];
+
+/* ---------- carga ---------- */
+async function load(){
+  try{
+    const r=await fetch(API+"/api/data");
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    DATA=await r.json();
+    DATA.tareas.forEach(t=>t._late=t.estado!=="cumplido"&&new Date(dstr(t.fin)+"T00:00:00")<today);
+    $("msg").innerHTML="";
+    render();
+  }catch(e){
+    $("msg").innerHTML='<div class="msg">No se pudo conectar con la API ('+esc(e.message)+'). Verificá que el servicio en Railway esté activo y que la URL sea correcta.</div>';
+  }
+}
+
+/* ---------- edición ---------- */
+$("editBtn").onclick=async()=>{
+  if(EDIT){ EDIT=false;KEY=null;$("editBtn").textContent="🔒 Editar";$("editBanner").classList.remove("on");render();return; }
+  const k=prompt("Ingresá tu clave de edición:"); if(!k)return;
+  try{
+    const r=await fetch(API+"/api/auth",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k})});
+    const j=await r.json();
+    if(j.ok){ KEY=k;EDIT=true;$("editBtn").textContent="✓ Salir de edición";$("editBanner").classList.add("on");render(); }
+    else alert("Clave incorrecta.");
+  }catch(e){ alert("No se pudo validar (¿API activa?): "+e.message); }
+};
+
+async function del(table,id){
+  if(!confirm("¿Borrar este registro?"))return;
+  const r=await fetch(API+"/api/"+table+"/"+id,{method:"DELETE",headers:{"Authorization":"Bearer "+KEY}});
+  if(r.ok) load(); else alert("No se pudo borrar.");
+}
+function openForm(table,row){
+  const s=SCHEMAS[table]; const isNew=!row;
+  $("modalTitle").textContent=(isNew?"Nueva ":"Editar ")+s.sing.toLowerCase();
+  $("modalBody").innerHTML=s.fields.map(f=>{
+    if(f.createOnly&&!isNew) return "";
+    const v=row?(f.t==="date"?dstr(row[f.n]):row[f.n]):"";
+    if(f.t==="textarea") return `<div class="field"><label>${f.l}</label><textarea id="f_${f.n}">${esc(v)}</textarea></div>`;
+    if(f.t==="select") return `<div class="field"><label>${f.l}</label><select id="f_${f.n}">${f.o.map(o=>`<option ${o==v?"selected":""}>${o}</option>`).join("")}</select></div>`;
+    if(f.t==="check") return `<div class="field check"><input type="checkbox" id="f_${f.n}" ${v?"checked":""}><label>${f.l}</label></div>`;
+    return `<div class="field"><label>${f.l}</label><input type="${f.t}" id="f_${f.n}" value="${esc(v)}"></div>`;
+  }).join("");
+  $("overlay").classList.add("on");
+  $("modalSave").onclick=async()=>{
+    const body={};
+    s.fields.forEach(f=>{ if(f.createOnly&&!isNew)return;
+      const el=$("f_"+f.n); if(!el)return;
+      body[f.n]=f.t==="check"?el.checked:(f.t==="number"?Number(el.value):el.value);
+    });
+    const id=row?row.id:null;
+    const url=id!=null?API+"/api/"+table+"/"+id:API+"/api/"+table;
+    const r=await fetch(url,{method:id!=null?"PUT":"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+KEY},body:JSON.stringify(body)});
+    if(r.ok){ $("overlay").classList.remove("on"); load(); }
+    else{ const j=await r.json().catch(()=>({})); alert("No se pudo guardar. "+(j.error||"")); }
+  };
+}
+$("modalCancel").onclick=()=>$("overlay").classList.remove("on");
+function addBtn(table){ return EDIT?`<button class="btn btn-primary btn-sm" onclick="openForm('${table}')">＋ Agregar</button>`:""; }
+function rowActs(table,id){ return EDIT?`<div class="acts"><button class="iconbtn" onclick='openForm("${table}",__row("${table}","${id}"))'>editar</button><button class="iconbtn del" onclick="del('${table}','${id}')">borrar</button></div>`:""; }
+window.__row=(table,id)=>DATA[table].find(x=>String(x.id)===String(id));
+window.openForm=openForm; window.del=del;
+
+/* ---------- render ---------- */
+function render(){
+  $("driveBtn").href=DRIVE;
+  $("tabs").innerHTML=TABS.map(([id,l])=>`<button class="tab ${id===TAB?"active":""}" onclick="setTab('${id}')">${l}</button>`).join("");
+  const c=$("content");
+  if(TAB==="resumen") c.innerHTML=viewResumen();
+  else if(TAB==="cronograma") c.innerHTML=viewCronograma();
+  else if(TAB==="riesgos") c.innerHTML=viewRiesgos();
+  else if(TAB==="equipo") c.innerHTML=viewEquipo();
+  else if(TAB==="log") c.innerHTML=viewLog();
+  else if(TAB==="gastos") c.innerHTML=viewGastos();
+}
+window.setTab=id=>{TAB=id;render();};
+
+function viewResumen(){
+  const cards=DATA.detalles.map(d=>`<div class="det${d.clave==="Fase actual"?" phase":""}"><dt>${esc(d.clave)}</dt><dd>${esc(d.valor)}</dd>${EDIT?`<div class="rowbtns"><button class="iconbtn" onclick='openForm("detalles",__row("detalles","${d.id}"))'>editar</button><button class="iconbtn del" onclick="del('detalles','${d.id}')">borrar</button></div>`:""}</div>`).join("");
+  let bl="";
+  DATA.bloqueos.forEach(b=>bl+=`<div class="block-item"><span class="dot"></span><div class="block-body"><div class="block-title">${esc(b.titulo)}</div><div class="block-meta">${esc(b.quien||"")} · ${esc(b.para||"")}</div></div>${EDIT?`<div class="acts"><button class="iconbtn" onclick='openForm("bloqueos",__row("bloqueos","${b.id}"))'>editar</button><button class="iconbtn del" onclick="del('bloqueos','${b.id}')">borrar</button></div>`:""}</div>`);
+  DATA.tareas.filter(t=>t._late).forEach(t=>bl+=`<div class="block-item"><span class="dot"></span><div class="block-body"><div class="block-title">${esc(t.nombre)}<span class="tag">vencido ${fmt(t.fin)}</span></div><div class="block-meta">${esc(t.responsable||"")} · ${esc(t.categoria)}</div></div></div>`);
+  const crit=DATA.tareas.filter(t=>t.critico).sort((a,b)=>dstr(a.fin).localeCompare(dstr(b.fin)));
+  return `<div class="card"><p class="eyebrow"><span>Detalles del proyecto</span>${addBtn("detalles")}</p><div class="details">${cards}</div></div>
+    <div class="card"><p class="eyebrow"><span>Bloqueos urgentes</span>${addBtn("bloqueos")}</p>${bl||'<p class="empty">Sin bloqueos.</p>'}</div>
+    <div class="card"><p class="eyebrow">Camino crítico</p><div class="crit-strip">${crit.map((t,i)=>`${i?'<span class="crit-arrow">→</span>':''}<span class="crit-node">${esc(t.nombre)}</span>`).join("")||'<span class="empty">—</span>'}</div></div>`;
+}
+function viewCronograma(){
+  const cats=[...new Set(DATA.tareas.map(t=>t.categoria))];
+  const body=cats.map(c=>{
+    const items=DATA.tareas.filter(t=>t.categoria===c).map(t=>{
+      const cls=(t.estado==="cumplido"?"done ":t._late?"late ":"")+(t.critico?"crit":"");
+      const st=t.estado==="cumplido"?'<span class="status done">Cumplido</span>':t._late?'<span class="status late">Vencido</span>':'<span class="status pend">Pendiente</span>';
+      return `<div class="task-row ${cls}"><div class="t-main"><div class="t-name">${esc(t.nombre)}${t.critico?'<span class="star">★</span>':''}</div>
+        <div class="t-meta"><span class="prio ${t.prioridad}">${t.prioridad}</span><span class="t-date">${fmt(t.inicio)} → ${fmt(t.fin)}</span><span>· ${esc(t.responsable||"")}</span></div></div>
+        <div class="t-right">${st}${rowActs("tareas",t.id)}</div></div>`;
+    }).join("");
+    return `<div class="cat-block"><div class="cat-name">${esc(c)}</div><div class="line">${items}</div></div>`;
+  }).join("");
+  return `<div class="card"><p class="eyebrow"><span>Cronograma · crítico en rojo</span>${addBtn("tareas")}</p>${body}</div>`;
+}
+function viewRiesgos(){
+  const rows=DATA.riesgos.map(r=>`<tr><td class="id">${esc(r.id)}</td><td>${esc(r.riesgo)}</td><td>${esc(r.categoria||"")}</td><td><span class="lvl ${r.impacto}">${esc(r.impacto)}</span></td><td><span class="lvl ${r.probabilidad}">${esc(r.probabilidad)}</span></td><td>${esc(r.mitigacion||"")}</td><td><b>${esc(r.accion||"")}</b></td><td>${esc(r.dueno||"")}</td><td><span class="chip">${esc(r.estado||"")}</span></td>${EDIT?`<td>${rowActs("riesgos",r.id)}</td>`:""}</tr>`).join("");
+  return `<div class="card"><p class="eyebrow"><span>Matriz de riesgos</span>${addBtn("riesgos")}</p><div class="tbl-wrap"><table class="data"><thead><tr><th>ID</th><th>Riesgo</th><th>Cat.</th><th>Imp</th><th>Prob</th><th>Mitigación</th><th>Acción</th><th>Dueño</th><th>Estado</th>${EDIT?"<th></th>":""}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+function viewEquipo(){
+  const rows=DATA.equipo.map(p=>{const tipo=p.tipo==="Núcleo"?'<span class="chip core">Núcleo</span>':'<span class="chip">Extendido</span>';const est=p.estado==="A buscar"?'<span class="chip warn">A buscar</span>':`<span class="chip">${esc(p.estado||"")}</span>`;
+    return `<tr><td><b>${esc(p.nombre)}</b></td><td>${esc(p.rol||"")}</td><td>${tipo}</td><td>${esc(p.contacto||"")}</td><td>${est}</td><td>${esc(p.proxima_accion||"")}</td>${EDIT?`<td>${rowActs("equipo",p.id)}</td>`:""}</tr>`;}).join("");
+  return `<div class="card"><p class="eyebrow"><span>Equipo · núcleo y extendido</span>${addBtn("equipo")}</p><div class="tbl-wrap"><table class="data"><thead><tr><th>Nombre</th><th>Rol</th><th>Tipo</th><th>Contacto</th><th>Estado</th><th>Próxima acción</th>${EDIT?"<th></th>":""}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+function viewLog(){
+  const rows=DATA.log.map(l=>`<tr><td>${fmt(l.fecha)}</td><td>${esc(l.actividad)}</td><td><span class="chip">${esc(l.categoria||"")}</span></td><td>${esc(l.responsable||"")}</td>${EDIT?`<td>${rowActs("log",l.id)}</td>`:""}</tr>`).join("");
+  return `<div class="card"><p class="eyebrow"><span>Log de acciones</span>${addBtn("log")}</p><div class="tbl-wrap"><table class="data" style="min-width:520px"><thead><tr><th>Fecha</th><th>Actividad</th><th>Categoría</th><th>Responsable</th>${EDIT?"<th></th>":""}</tr></thead><tbody>${rows||'<tr><td colspan="5" class="empty">Sin acciones.</td></tr>'}</tbody></table></div></div>`;
+}
+function viewGastos(){
+  const rows=DATA.gastos.map(g=>`<tr><td>${fmt(g.fecha)}</td><td>${esc(g.concepto)}</td><td><span class="chip">${esc(g.categoria||"—")}</span></td><td class="num">${money(g.monto)}</td>${EDIT?`<td>${rowActs("gastos",g.id)}</td>`:""}</tr>`).join("");
+  const total=DATA.gastos.reduce((s,g)=>s+Number(g.monto||0),0);
+  return `<div class="card eco"><p class="eyebrow"><span>Gastos realizados</span>${addBtn("gastos")}</p><div class="tbl-wrap"><table class="data" style="min-width:520px"><thead><tr><th>Fecha</th><th>Concepto</th><th>Categoría / C. de costo</th><th style="text-align:right">Monto</th>${EDIT?"<th></th>":""}</tr></thead><tbody>${rows||'<tr><td colspan="5" class="empty">Sin gastos aún.</td></tr>'}</tbody><tfoot><tr><td colspan="3">Total</td><td class="num">${money(total)}</td></tr></tfoot></table></div></div>`;
+}
+
+load();
+</script>
+</body>
+</html>
